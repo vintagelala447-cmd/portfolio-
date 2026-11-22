@@ -1,0 +1,1921 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MUNAF — Luxury Website Designer & Developer</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Anton, Plus Jakarta Sans, JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        display: ['Anton', 'sans-serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        canvas: '#080808',
+                        surface: '#0E0E12',
+                        borderline: '#1E1E26',
+                        blaze: '#FF4500',
+                        blazeHover: '#FF5E24',
+                        champagne: '#D4AF37',
+                        offwhite: '#F5F5F7',
+                        muted: '#94949E',
+                        figmaCyan: '#38BDF8',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Pitch-Black #080808 Studio Canvas with Technical Grid */
+        body {
+            background-color: #080808;
+            color: #F5F5F7;
+            overflow-x: hidden;
+            background-image:
+                linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        body.xray-active {
+            background-image:
+                linear-gradient(to right, rgba(56, 189, 248, 0.08) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(56, 189, 248, 0.08) 1px, transparent 1px);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #080808; }
+        ::-webkit-scrollbar-thumb { background: #26262E; border-radius: 9999px; }
+        ::-webkit-scrollbar-thumb:hover { background: #FF4500; }
+
+        /* =====================================================================
+           3-STAGE FIGMA MULTIPLAYER ANIMATION ("FINAL TOUCH" ENGINE)
+           Guaranteed 100% crash-proof & never stuck at opacity: 0
+           ===================================================================== */
+        .figma-node {
+            position: relative;
+            border: 1px solid #1E1E26;
+            transition:
+                border-color 0.35s ease,
+                box-shadow 0.35s ease,
+                transform 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+                opacity 0.55s ease;
+        }
+
+        /* Stage 2: Wireframe Scanning State (During Boot or Scroll Snap) */
+        .figma-node.wireframe-scanning {
+            border: 1px dashed #38BDF8 !important;
+            box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.25), inset 0 0 24px rgba(56, 189, 248, 0.06);
+        }
+
+        .figma-node.wireframe-scanning .f-handle,
+        .figma-node.wireframe-scanning .f-badge {
+            opacity: 1 !important;
+            transform: scale(1) !important;
+        }
+
+        /* Scroll-Reveal Pre-Snap State (Only when JS marks body.anim-ready) */
+        body.anim-ready .scroll-node:not(.snapped) {
+            opacity: 0.15;
+            transform: translateY(22px) scale(0.985);
+            border: 1px dashed rgba(56, 189, 248, 0.65);
+        }
+
+        body.anim-ready .scroll-node:not(.snapped) .f-handle,
+        body.anim-ready .scroll-node:not(.snapped) .f-badge {
+            opacity: 1;
+        }
+
+        /* Permanent X-Ray Mode ("WE X-RAYED THIS") */
+        body.xray-active .figma-node {
+            border: 1px dashed #38BDF8 !important;
+            box-shadow: inset 0 0 0 1px rgba(56, 189, 248, 0.2);
+            background-color: rgba(56, 189, 248, 0.025);
+        }
+
+        body.xray-active .f-handle,
+        body.xray-active .f-badge,
+        .figma-node:hover .f-handle,
+        .figma-node:hover .f-badge {
+            opacity: 1;
+        }
+
+        .figma-node:hover {
+            border-color: rgba(255, 69, 0, 0.6);
+        }
+        .figma-node:hover .f-handle {
+            border-color: #FF4500;
+        }
+        .figma-node:hover .f-badge {
+            background: #FF4500;
+            color: #FFFFFF;
+        }
+
+        /* 4 Corner Resize Handles */
+        .f-handle {
+            position: absolute;
+            width: 7px;
+            height: 7px;
+            background: #080808;
+            border: 1.5px solid #38BDF8;
+            z-index: 25;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.25s ease, border-color 0.25s ease;
+        }
+        .f-handle.tl { top: -4px; left: -4px; }
+        .f-handle.tr { top: -4px; right: -4px; }
+        .f-handle.bl { bottom: -4px; left: -4px; }
+        .f-handle.br { bottom: -4px; right: -4px; }
+
+        /* Live Pixel Dimension & Frame Badge */
+        .f-badge {
+            position: absolute;
+            top: -19px;
+            left: 8px;
+            padding: 2px 7px;
+            border-radius: 3px;
+            background: #38BDF8;
+            color: #080808;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            white-space: nowrap;
+            pointer-events: none;
+            z-index: 30;
+            opacity: 0;
+            transition: opacity 0.25s ease, background-color 0.25s ease, color 0.25s ease;
+        }
+
+        /* Giant PORTFOLIO Watermark Reveal */
+        .portfolio-watermark {
+            font-size: clamp(4.8rem, 19.5vw, 21rem);
+            line-height: 0.84;
+            letter-spacing: -0.02em;
+            user-select: none;
+            transition: transform 0.95s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.85s ease;
+        }
+
+        .watermark-boot {
+            transform: translateY(-28px) scale(1.06);
+            opacity: 0.25;
+        }
+
+        /* Stage 1 Multiplayer Floating Cursors */
+        .mp-cursor {
+            position: absolute;
+            z-index: 35;
+            pointer-events: none;
+            transition: transform 0.85s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s ease;
+        }
+
+        @keyframes cursorBobA {
+            0%, 100% { transform: translate(0px, 0px); }
+            50% { transform: translate(7px, -9px); }
+        }
+        @keyframes cursorBobB {
+            0%, 100% { transform: translate(0px, 0px); }
+            50% { transform: translate(-8px, 7px); }
+        }
+        @keyframes cursorBobC {
+            0%, 100% { transform: translate(0px, 0px); }
+            50% { transform: translate(6px, 8px); }
+        }
+        .bob-a { animation: cursorBobA 4.2s ease-in-out infinite; }
+        .bob-b { animation: cursorBobB 4.9s ease-in-out infinite; }
+        .bob-c { animation: cursorBobC 5.3s ease-in-out infinite; }
+
+        /* Kinetic Headline Line Clip Reveal */
+        .kinetic-line {
+            display: block;
+            transition: transform 0.75s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.65s ease;
+        }
+        .kinetic-boot {
+            transform: translateY(18px);
+            opacity: 0.35;
+        }
+
+        /* Continuous Tech Marquee */
+        @keyframes marqueeRun {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-50%); }
+        }
+        .marquee-strip {
+            display: flex;
+            width: max-content;
+            animation: marqueeRun 26s linear infinite;
+        }
+        .marquee-strip:hover {
+            animation-play-state: paused;
+        }
+    
+        /* =====================================================================
+           ADDED: LIVE MULTIPLAYER CURSOR ENGINE + EXTRA MOTION
+           ===================================================================== */
+        .mp-layer { position: absolute; inset: 0; z-index: 30; pointer-events: none; overflow: hidden; }
+        .mp-cursor2 { position: absolute; left: 0; top: 0; opacity: 0; will-change: transform; transition: opacity .5s ease; }
+        .mp-cursor2.live { opacity: 1; }
+        .mp-arrow { width: 18px; height: 18px; transform-origin: 3px 2px; transition: transform .1s ease-out; filter: drop-shadow(0 3px 6px rgba(0,0,0,.6)); }
+        .mp-arrow svg { width: 100%; height: 100%; display: block; transition: transform .14s ease; }
+        .mp-cursor2.press .mp-arrow svg { transform: scale(.76); }
+        .mp-label { position: absolute; left: 13px; top: 15px; padding: 2px 9px; border-radius: 9999px; font: 700 10px 'JetBrains Mono', monospace; white-space: nowrap; box-shadow: 0 6px 16px rgba(0,0,0,.45); }
+        .mp-bubble { position: absolute; left: 13px; top: 40px; padding: 6px 11px; border-radius: 4px 12px 12px 12px; background: #0E0E12; color: #F5F5F7; border: 1px solid var(--c); font: 500 10.5px/1.35 'Plus Jakarta Sans', sans-serif; white-space: nowrap; opacity: 0; transform: translateY(-4px) scale(.94); transform-origin: 0 0; transition: opacity .25s ease, transform .3s cubic-bezier(.16,1,.3,1); box-shadow: 0 10px 24px rgba(0,0,0,.5); }
+        .mp-bubble.on { opacity: 1; transform: none; }
+        .mp-cursor2.flip .mp-label { left: auto; right: 13px; }
+        .mp-cursor2.flip .mp-bubble { left: auto; right: 13px; border-radius: 12px 4px 12px 12px; transform-origin: 100% 0; }
+        .mp-dot { position: absolute; left: 0; top: 0; border-radius: 9999px; background: var(--c); opacity: 0; will-change: transform; }
+        .mp-ripple { position: absolute; left: 0; top: 0; width: 14px; height: 14px; margin: -7px 0 0 -7px; border-radius: 9999px; border: 2px solid var(--c); animation: mpRipple .75s ease-out forwards; pointer-events: none; }
+        @keyframes mpRipple { 0% { transform: scale(.3); opacity: .95; } 100% { transform: scale(3.6); opacity: 0; } }
+
+        /* Selection ring when a cursor "grabs" an element */
+        .mp-sel { outline: 1.5px solid var(--sel, #38BDF8); outline-offset: 4px; }
+        .figma-node.mp-sel { outline-offset: 5px; }
+        .figma-node.mp-sel .f-handle, .figma-node.mp-sel .f-badge { opacity: 1; }
+        .figma-node.mp-sel > .f-badge { background: var(--sel, #38BDF8); }
+        .figma-node.mp-sel > .f-handle { border-color: var(--sel, #38BDF8); }
+
+        /* Soft light that follows the visitor's real mouse */
+        .mouse-glow { position: fixed; left: 0; top: 0; width: 340px; height: 340px; border-radius: 50%; pointer-events: none; z-index: 2; opacity: 0; mix-blend-mode: screen; background: radial-gradient(circle, rgba(255,69,0,.12), rgba(212,175,55,.05) 45%, transparent 68%); transition: opacity .4s ease; will-change: transform; }
+
+        /* Scroll progress bar */
+        .scroll-progress { position: fixed; top: 0; left: 0; height: 2px; width: 100%; transform-origin: 0 50%; transform: scaleX(0); z-index: 60; background: linear-gradient(90deg, #FF4500, #D4AF37); pointer-events: none; }
+
+        /* Case study modal */
+        #case-modal { position: fixed; inset: 0; z-index: 90; display: flex; align-items: center; justify-content: center; padding: 18px; background: rgba(4,4,6,.78); backdrop-filter: blur(10px); opacity: 0; visibility: hidden; transition: opacity .3s ease, visibility 0s linear .3s; }
+        #case-modal[data-open="1"] { opacity: 1; visibility: visible; transition: opacity .3s ease, visibility 0s; }
+        #case-modal .cm-panel { transform: translateY(28px) scale(.97); transition: transform .55s cubic-bezier(.16,1,.3,1); }
+        #case-modal[data-open="1"] .cm-panel { transform: none; }
+
+        /* Hero tilt card + toasts */
+        .toast-in { opacity: 0; transform: translateY(-8px); transition: opacity .35s ease, transform .35s ease; }
+        .toast-in.show { opacity: 1; transform: none; }
+
+        @media (prefers-reduced-motion: reduce) {
+            .marquee-strip, .bob-a, .bob-b, .bob-c { animation: none !important; }
+            html { scroll-behavior: auto !important; }
+        }
+    
+        /* =====================================================================
+           ADDED: WEBSITE OPENING ANIMATION
+           ===================================================================== */
+        #intro { position: fixed; inset: 0; z-index: 100; overflow: hidden; color: #F5F5F7; font-family: 'JetBrains Mono', monospace;
+                 animation: introFailsafe .01s linear 8s forwards; }
+        @keyframes introFailsafe { to { opacity: 0; visibility: hidden; pointer-events: none; } }
+        .intro-curtain { position: absolute; left: 0; right: 0; height: 50.6%; background-color: #080808; will-change: transform;
+                         background-image: linear-gradient(to right, rgba(255,255,255,.035) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.035) 1px, transparent 1px);
+                         background-size: 40px 40px; transition: transform .95s cubic-bezier(.76,0,.24,1); }
+        .intro-top { top: 0; }
+        .intro-bot { bottom: 0; background-position: 0 100%; }
+        #intro.open .intro-top { transform: translateY(-101%); }
+        #intro.open .intro-bot { transform: translateY(101%); }
+        .intro-seam { position: absolute; left: 0; right: 0; top: 50%; height: 2px; margin-top: -1px; transform: scaleX(0); opacity: 1;
+                      background: linear-gradient(90deg, transparent, #FF4500 20%, #D4AF37 50%, #FF4500 80%, transparent);
+                      box-shadow: 0 0 24px 2px rgba(255,69,0,.55); transition: transform 1.3s cubic-bezier(.16,1,.3,1) .15s, opacity .5s ease; }
+        #intro.go .intro-seam { transform: scaleX(1); }
+        #intro.open .intro-seam { opacity: 0; transition-delay: .25s; }
+
+        .intro-center { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: 0 20px;
+                        transition: opacity .5s ease .05s, transform .8s cubic-bezier(.76,0,.24,1); }
+        #intro.open .intro-center { opacity: 0; transform: scale(1.1); }
+        .intro-frame { position: relative; padding: 30px 44px 26px; border: 1px dashed #38BDF8; text-align: center; opacity: 0; transform: scale(.94);
+                       box-shadow: inset 0 0 40px rgba(56,189,248,.06);
+                       transition: opacity .6s ease .1s, transform .9s cubic-bezier(.16,1,.3,1) .1s, border-color .35s ease, box-shadow .35s ease; }
+        #intro.go .intro-frame { opacity: 1; transform: none; }
+        .intro-frame .f-badge, .intro-frame .f-handle { opacity: 1; transition: background-color .3s ease, border-color .3s ease; }
+        #intro.snap .intro-frame { border: 1px solid #FF4500; box-shadow: 0 0 60px rgba(255,69,0,.18), inset 0 0 40px rgba(255,69,0,.05); }
+        #intro.snap .intro-frame .f-badge { background: #FF4500; color: #fff; }
+        #intro.snap .intro-frame .f-handle { border-color: #FF4500; }
+        .intro-word { display: flex; justify-content: center; line-height: .98; }
+        .intro-mask { display: inline-block; overflow: hidden; vertical-align: top; padding: 0 .015em; }
+        .intro-letter { display: inline-block; font-family: 'Anton', Impact, sans-serif; font-size: clamp(4.2rem, 17vw, 10.5rem); letter-spacing: .01em;
+                        transform: translateY(112%); transition: transform .85s cubic-bezier(.16,1,.3,1); transition-delay: calc(var(--i) * .075s + .3s); }
+        #intro.go .intro-letter { transform: none; }
+        .intro-mask:first-child .intro-letter { color: #FF4500; }
+        .intro-sub { margin-top: 10px; font-size: clamp(8px, 2vw, 11px); letter-spacing: .32em; color: #D4AF37; opacity: 0; transform: translateY(8px);
+                     transition: opacity .8s ease 1.1s, transform .8s ease 1.1s; }
+        #intro.go .intro-sub { opacity: 1; transform: none; }
+        .intro-cursor { position: absolute; left: 50%; top: 50%; opacity: 0; transform: translate(40vw, 36vh); pointer-events: none;
+                        transition: transform 1s cubic-bezier(.22,1,.36,1) 1.05s, opacity .3s ease .95s; }
+        #intro.go .intro-cursor { opacity: 1; transform: translate(var(--cx, 220px), var(--cy, 110px)); }
+        #intro.snap .intro-cursor .mp-arrow svg { transform: scale(.76); }
+
+        .intro-hud { position: absolute; left: 24px; right: 24px; bottom: 26px; display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; transition: opacity .35s ease; }
+        #intro.open .intro-hud, #intro.open #intro-skip, #intro.open .intro-bar { opacity: 0; }
+        .intro-count { font-family: 'Anton', Impact, sans-serif; font-size: clamp(2.8rem, 8vw, 5.2rem); line-height: .85; color: #F5F5F7; }
+        .intro-pct { color: #FF4500; font-size: .5em; margin-left: 4px; }
+        .intro-status { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: #94949E; padding-bottom: 6px; text-align: right; }
+        .intro-bar { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: #1E1E26; transition: opacity .35s ease; }
+        .intro-bar i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, #FF4500, #D4AF37); box-shadow: 0 0 14px rgba(255,69,0,.7); }
+        #intro-skip { position: absolute; top: 20px; right: 20px; padding: 7px 14px; border-radius: 9999px; border: 1px solid #1E1E26; background: rgba(14,14,18,.8);
+                      color: #94949E; font: 700 10px 'JetBrains Mono', monospace; letter-spacing: .14em; text-transform: uppercase; cursor: pointer; transition: color .2s, border-color .2s, opacity .35s; }
+        #intro-skip:hover { color: #F5F5F7; border-color: #FF4500; }
+    </style>
+</head>
+<body class="font-sans antialiased selection:bg-blaze selection:text-white">
+
+    <!-- 0. WEBSITE OPENING ANIMATION (Figma-style intro + curtain reveal) -->
+    <div id="intro" aria-hidden="true">
+        <div class="intro-curtain intro-top"></div>
+        <div class="intro-curtain intro-bot"></div>
+        <div class="intro-seam"></div>
+
+        <div class="intro-center">
+            <div class="intro-frame">
+                <span class="f-badge">FRAME // INTRO</span>
+                <span class="f-handle tl"></span><span class="f-handle tr"></span><span class="f-handle bl"></span><span class="f-handle br"></span>
+                <div class="intro-word">
+                    <span class="intro-mask"><span class="intro-letter" style="--i:0">M</span></span><span class="intro-mask"><span class="intro-letter" style="--i:1">U</span></span><span class="intro-mask"><span class="intro-letter" style="--i:2">N</span></span><span class="intro-mask"><span class="intro-letter" style="--i:3">A</span></span><span class="intro-mask"><span class="intro-letter" style="--i:4">F</span></span>
+                </div>
+                <div class="intro-sub">LUXURY WEBSITE DESIGNER &amp; DEVELOPER</div>
+            </div>
+            <div class="intro-cursor">
+                <div class="mp-arrow"><svg viewBox="0 0 24 24" fill="#EAB308" stroke="#080808" stroke-width="1.2" stroke-linejoin="round"><path d="M4 2l16 11-7 2-3 7z"/></svg></div>
+                <div class="mp-label" style="background:#EAB308;color:#080808">Munaf</div>
+            </div>
+        </div>
+
+        <div class="intro-hud">
+            <div class="intro-count"><span id="intro-num">000</span><span class="intro-pct">%</span></div>
+            <div class="intro-status" id="intro-status">Mounting grid…</div>
+        </div>
+        <div class="intro-bar"><i id="intro-fill"></i></div>
+        <button type="button" id="intro-skip">Skip →</button>
+    </div>
+
+
+    <!-- TOAST FEEDBACK STACK -->
+    <div id="toast-stack" class="fixed top-20 right-4 z-[95] flex flex-col gap-2 pointer-events-none"></div>
+
+    <!-- 1. TOP STICKY STUDIO NAVIGATION HEADER -->
+    <header class="fixed top-0 inset-x-0 z-40 border-b border-[#1E1E26] bg-canvas/90 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-3">
+            <!-- MUNAF Logo Mark -->
+            <a href="#home" class="inline-flex items-center gap-2.5 group">
+                <span class="w-9 h-9 rounded-lg bg-blaze flex items-center justify-center font-display text-xl tracking-wider text-white shadow-md shadow-blaze/30 group-hover:scale-105 transition-transform">
+                    M
+                </span>
+                <div class="leading-none">
+                    <span class="font-display text-2xl tracking-wide text-offwhite block">MUNAF</span>
+                    <span class="font-mono text-[9px] text-champagne uppercase tracking-widest block">Luxury Web Studio</span>
+                </div>
+            </a>
+
+            <!-- Quick Nav Links -->
+            <nav aria-label="Main Navigation" class="hidden md:flex items-center gap-7 font-mono text-xs uppercase tracking-wider text-muted">
+                <a href="#work" class="hover:text-offwhite transition-colors">Work</a>
+                <a href="#pricing" class="hover:text-offwhite transition-colors">Pricing</a>
+                <a href="#about" class="hover:text-offwhite transition-colors">About</a>
+                <a href="#contact" class="hover:text-offwhite transition-colors">Contact</a>
+            </nav>
+
+            <!-- Right Actions: SHARE LINK + HIRE ME -->
+            <div class="flex items-center gap-2 sm:gap-3">
+                <button type="button" onclick="copyShareLink()" class="inline-flex items-center gap-1.5 px-3 sm:px-4 py-2 rounded-full border border-[#1E1E26] bg-surface hover:border-champagne text-offwhite hover:text-champagne font-mono text-[11px] font-semibold uppercase tracking-wider transition-all cursor-pointer">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                    </svg>
+                    <span>Share Link</span>
+                </button>
+
+                <a href="#contact" class="inline-flex items-center gap-1.5 px-4 sm:px-5 py-2 rounded-full bg-blaze hover:bg-blazeHover text-white font-mono text-[11px] font-bold uppercase tracking-wider transition-all shadow-lg shadow-blaze/30">
+                    <span>Hire Me</span>
+                    <span>→</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- 2. HERO SECTION WITH 3-STAGE FIGMA MULTIPLAYER CANVAS -->
+    <section id="home" class="relative pt-24 pb-16 lg:pt-28 lg:pb-24 overflow-hidden border-b border-[#1E1E26]">
+
+        <!-- Giant Burnt-Orange 'PORTFOLIO' Watermark -->
+        <div class="absolute top-14 sm:top-12 inset-x-0 flex justify-center pointer-events-none z-0 overflow-hidden">
+            <span id="hero-watermark" class="font-display portfolio-watermark text-blaze uppercase">
+                PORTFOLIO
+            </span>
+        </div>
+
+        <!-- Subtle Gradient Overlay so Foreground Text Pops -->
+        <div class="absolute inset-0 bg-gradient-to-b from-canvas/15 via-canvas/70 to-canvas pointer-events-none z-[1]"></div>
+
+
+        <div class="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 relative z-10 pt-8 sm:pt-14">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+
+                <!-- LEFT COLUMN: Hero Wireframe Node -->
+                <div class="lg:col-span-7 space-y-6">
+                    <!-- Floating Node Tag Row (Mobile + Desktop) -->
+                    <div class="flex flex-wrap items-center gap-2">
+                        <span class="bob-a inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-blaze text-white font-mono text-[10px] font-bold shadow">
+                            <span>↖</span> Web Dev
+                        </span>
+                        <span class="bob-b inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#22C55E] text-[#080808] font-mono text-[10px] font-bold shadow">
+                            <span>✦</span> Motion
+                        </span>
+                        <span class="bob-c inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#EC4899] text-white font-mono text-[10px] font-bold shadow">
+                            <span>◈</span> Pricing
+                        </span>
+                        <span class="bob-a inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-champagne text-[#080808] font-mono text-[10px] font-bold shadow">
+                            <span>⚡</span> CTA
+                        </span>
+                    </div>
+
+                    <!-- Framed Hero Title Card -->
+                    <div data-frame-label="FRAME // HERO" class="figma-node boot-node bg-surface/90 backdrop-blur-md rounded-2xl p-6 sm:p-8 lg:p-10 shadow-2xl">
+                        <span class="f-badge">FRAME // HERO</span>
+                        <span class="f-handle tl"></span><span class="f-handle tr"></span><span class="f-handle bl"></span><span class="f-handle br"></span>
+
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#22C55E]/10 border border-[#22C55E]/30 text-[#22C55E] font-mono text-[10px] uppercase tracking-wider mb-5">
+                            <span class="w-2 h-2 rounded-full bg-[#22C55E] animate-pulse"></span>
+                            <span>Available for New Luxury Websites</span>
+                        </div>
+
+                        <h1 class="font-display text-5xl sm:text-7xl xl:text-[82px] leading-[0.92] uppercase tracking-tight text-offwhite">
+                            <span class="kinetic-line">HELLO, I'M <span class="text-blaze">MUNAF</span> —</span>
+                            <span class="kinetic-line mt-1">LUXURY WEBSITES</span>
+                            <span class="kinetic-line text-champagne mt-1">THAT SELL.</span>
+                        </h1>
+
+                        <p class="mt-5 text-sm sm:text-base text-[#C4C4CE] leading-relaxed max-w-2xl">
+                            I design and engineer ultra-high-contrast, editorial luxury websites, 3D product showcases, and conversion-driven brand flagships—crafted so when a client asks for your link, your digital presence closes the deal.
+                        </p>
+
+                        <!-- Primary Hero CTAs -->
+                        <div class="mt-7 flex flex-wrap items-center gap-3.5">
+                            <a href="#work" class="inline-flex items-center gap-2 px-6 py-3.5 rounded-full border border-[#1E1E26] bg-canvas hover:border-blaze text-offwhite font-mono text-xs font-bold uppercase tracking-wider transition-all">
+                                <span>VIEW WORK</span>
+                            </a>
+                            <a href="#contact" class="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-full bg-blaze hover:bg-blazeHover text-white font-mono text-xs font-bold uppercase tracking-wider transition-all shadow-lg shadow-blaze/35">
+                                <span>START PROJECT</span>
+                                <span>→</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RIGHT COLUMN: Framed Portrait Card with Persistent Upload -->
+                <div class="lg:col-span-5">
+                    <div data-frame-label="PORTRAIT // MUNAF" class="figma-node boot-node bg-surface rounded-2xl p-5 sm:p-6 shadow-2xl relative">
+                        <span class="f-badge">PORTRAIT // MUNAF</span>
+                        <span class="f-handle tl"></span><span class="f-handle tr"></span><span class="f-handle bl"></span><span class="f-handle br"></span>
+
+                        <!-- Card Header Bar -->
+                        <div class="flex items-center justify-between gap-2 mb-4">
+                            <div class="flex items-center gap-2">
+                                <span class="w-2.5 h-2.5 rounded-full bg-blaze"></span>
+                                <span class="font-mono text-[11px] font-bold text-offwhite uppercase tracking-wider">MUNAF // WEB ARCHITECT</span>
+                            </div>
+
+                            <div class="flex items-center gap-1.5">
+                                <label for="upload-my-photo" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-blaze hover:bg-blazeHover text-white font-mono text-[10px] font-bold uppercase tracking-wider cursor-pointer transition-all shadow-md shadow-blaze/25">
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
+                                    </svg>
+                                    <span>UPLOAD MY PHOTO</span>
+                                </label>
+                                <input type="file" id="upload-my-photo" accept="image/*" class="hidden" onchange="handlePhotoUpload(event)">
+
+                                <button type="button" id="reset-photo-btn" onclick="resetPortraitToDefault()" class="hidden px-2.5 py-1.5 rounded-full bg-canvas border border-[#1E1E26] hover:border-blaze font-mono text-[10px] text-muted hover:text-offwhite cursor-pointer" title="Restore Default Portrait">
+                                    Reset
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Portrait Stage -->
+                        <div class="relative rounded-xl bg-gradient-to-b from-[#15151C] via-[#0B0B0F] to-[#080808] border border-[#1E1E26] overflow-hidden flex items-end justify-center min-h-[390px] sm:min-h-[430px]">
+                            <!-- Ambient Studio Rim Lights -->
+                            <div class="absolute top-12 w-60 h-60 rounded-full bg-blaze/20 blur-[80px] pointer-events-none"></div>
+                            <div class="absolute bottom-8 w-56 h-56 rounded-full bg-champagne/15 blur-[75px] pointer-events-none"></div>
+
+                            <!-- User Uploaded Photo (Persisted via localStorage) -->
+                            <img id="saved-user-photo" src="" alt="Munaf Portrait" class="hidden relative z-10 w-full h-[430px] object-cover object-top">
+
+                            <!-- Crisp Embedded Vector Cutout Portrait of Munaf -->
+                            <svg id="default-munaf-svg" viewBox="0 0 460 540" class="relative z-10 w-full max-w-[375px] h-auto drop-shadow-[0_22px_36px_rgba(0,0,0,0.95)]" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Munaf Studio Cutout Portrait">
+                                <defs>
+                                    <linearGradient id="skinMain" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" stop-color="#D9A37E"/>
+                                        <stop offset="55%" stop-color="#C18762"/>
+                                        <stop offset="100%" stop-color="#9A6444"/>
+                                    </linearGradient>
+                                    <linearGradient id="skinShade" x1="0%" y1="0%" x2="0%" y2="100%">
+                                        <stop offset="0%" stop-color="#A66D4B"/>
+                                        <stop offset="100%" stop-color="#7D4C30"/>
+                                    </linearGradient>
+                                    <linearGradient id="jerseyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" stop-color="#FAFAFC"/>
+                                        <stop offset="60%" stop-color="#E4E4EA"/>
+                                        <stop offset="100%" stop-color="#C2C2CC"/>
+                                    </linearGradient>
+                                    <linearGradient id="capGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                        <stop offset="0%" stop-color="#27272E"/>
+                                        <stop offset="100%" stop-color="#111115"/>
+                                    </linearGradient>
+                                    <linearGradient id="vignetteBottom" x1="0%" y1="0%" x2="0%" y2="100%">
+                                        <stop offset="0%" stop-color="#080808" stop-opacity="0"/>
+                                        <stop offset="100%" stop-color="#080808" stop-opacity="1"/>
+                                    </linearGradient>
+                                </defs>
+
+                                <!-- Backward Black Cap & Snapback Strap -->
+                                <path d="M158 140 C158 80, 302 80, 302 140 L306 160 L154 160 Z" fill="url(#capGrad)" stroke="#3F3F4A" stroke-width="1.5"/>
+                                <path d="M196 138 C196 116, 264 116, 264 138 Z" fill="#141418"/>
+                                <rect x="193" y="135" width="74" height="11" rx="5.5" fill="#1C1C22" stroke="#52525B" stroke-width="1.2"/>
+                                <circle cx="212" cy="140.5" r="1.5" fill="#9CA3AF"/>
+                                <circle cx="221" cy="140.5" r="1.5" fill="#9CA3AF"/>
+                                <circle cx="230" cy="140.5" r="1.5" fill="#9CA3AF"/>
+                                <circle cx="239" cy="140.5" r="1.5" fill="#9CA3AF"/>
+                                <circle cx="248" cy="140.5" r="1.5" fill="#9CA3AF"/>
+
+                                <!-- Ears -->
+                                <path d="M154 180 C142 178, 141 210, 156 214" fill="url(#skinShade)"/>
+                                <path d="M306 180 C318 178, 319 210, 304 214" fill="url(#skinShade)"/>
+
+                                <!-- Neck -->
+                                <path d="M196 240 L194 310 L266 310 L264 240 Z" fill="url(#skinShade)"/>
+                                <path d="M198 242 Q230 264 262 242 L262 268 Q230 280 198 268 Z" fill="#6E4127" opacity="0.55"/>
+
+                                <!-- Head / Face -->
+                                <path d="M156 160 C156 122, 304 122, 304 160 L301 206 C298 244, 266 268, 230 268 C194 268, 162 244, 159 206 Z" fill="url(#skinMain)"/>
+
+                                <!-- Dark Hair Fringe under Backward Cap -->
+                                <path d="M154 168 C152 138, 184 126, 230 126 C276 126, 308 138, 306 168 C294 156, 276 160, 262 154 C246 164, 224 158, 206 164 C188 158, 168 160, 154 168 Z" fill="#0E0E12"/>
+
+                                <!-- Eyebrows -->
+                                <path d="M174 174 Q194 168 212 175" fill="none" stroke="#141418" stroke-width="4.2" stroke-linecap="round"/>
+                                <path d="M248 175 Q266 168 286 174" fill="none" stroke="#141418" stroke-width="4.2" stroke-linecap="round"/>
+
+                                <!-- Eyes -->
+                                <ellipse cx="194" cy="188" rx="11" ry="6.2" fill="#F8FAFC"/>
+                                <circle cx="194" cy="188" r="4.6" fill="#181210"/>
+                                <circle cx="195.8" cy="186.5" r="1.4" fill="#FFFFFF"/>
+
+                                <ellipse cx="266" cy="188" rx="11" ry="6.2" fill="#F8FAFC"/>
+                                <circle cx="266" cy="188" r="4.6" fill="#181210"/>
+                                <circle cx="267.8" cy="186.5" r="1.4" fill="#FFFFFF"/>
+
+                                <!-- Black Double-Bridge Glasses -->
+                                <g stroke="#111115" stroke-width="2.6" fill="rgba(255,255,255,0.04)">
+                                    <rect x="167" y="175" width="52" height="31" rx="8"/>
+                                    <rect x="241" y="175" width="52" height="31" rx="8"/>
+                                    <line x1="217" y1="179" x2="243" y2="179" stroke-width="2.2"/>
+                                    <path d="M219 186 Q230 182 241 186" fill="none" stroke-width="2.5"/>
+                                    <line x1="175" y1="180" x2="186" y2="199" stroke="#FFFFFF" stroke-opacity="0.2" stroke-width="2"/>
+                                    <line x1="249" y1="180" x2="260" y2="199" stroke="#FFFFFF" stroke-opacity="0.2" stroke-width="2"/>
+                                </g>
+
+                                <!-- Nose, Mustache, Goatee & Smile -->
+                                <path d="M230 187 L225 214 Q230 218 236 214" fill="none" stroke="#8C583A" stroke-width="2.2" stroke-linecap="round"/>
+                                <path d="M212 228 Q230 223 248 228" fill="none" stroke="#1E1B1A" stroke-width="2.6" stroke-linecap="round" opacity="0.85"/>
+                                <path d="M222 249 Q230 255 238 249" fill="none" stroke="#1E1B1A" stroke-width="3.2" stroke-linecap="round" opacity="0.82"/>
+                                <path d="M214 236 Q230 243 246 236" fill="none" stroke="#7A442B" stroke-width="2.4" stroke-linecap="round"/>
+
+                                <!-- White Jersey with Red & Gold Trim -->
+                                <path d="M92 334 C106 298, 152 284, 194 280 L230 310 L266 280 C308 284, 354 298, 368 334 L392 457 L344 472 L338 540 L122 540 L116 472 L68 457 Z" fill="url(#jerseyGrad)"/>
+                                <path d="M188 280 L230 318 L272 280 L262 276 L230 306 L198 276 Z" fill="#991B1B"/>
+                                <path d="M194 278 L230 311 L266 278" fill="none" stroke="#D4AF37" stroke-width="2.2"/>
+
+                                <!-- Sleeve Cuffs -->
+                                <path d="M72 438 L118 454 L115 466 L69 450 Z" fill="#991B1B"/>
+                                <path d="M70 448 L116 464" stroke="#D4AF37" stroke-width="2"/>
+                                <path d="M388 438 L342 454 L345 466 L391 450 Z" fill="#991B1B"/>
+                                <path d="M390 448 L344 464" stroke="#D4AF37" stroke-width="2"/>
+
+                                <!-- Jersey Crest & Number 9 -->
+                                <g transform="translate(152, 347)">
+                                    <path d="M0 16 L8 2 L14 14 L20 0 L26 14 L32 2 L40 16 Z" fill="#991B1B"/>
+                                    <line x1="2" y1="19" x2="38" y2="19" stroke="#991B1B" stroke-width="2.5"/>
+                                </g>
+                                <g transform="translate(274, 336)">
+                                    <polygon points="18,0 20,5 25,5 21,8 22,13 18,10 14,13 15,8 11,5 16,5" fill="#991B1B"/>
+                                    <path d="M4 16 H32 V36 C32 46, 18 52, 18 52 C18 52, 4 46, 4 36 Z" fill="#991B1B" stroke="#D4AF37" stroke-width="1.8"/>
+                                    <rect x="11" y="23" width="14" height="16" rx="2" fill="#D4AF37"/>
+                                </g>
+                                <text x="158" y="430" font-family="Anton, sans-serif" font-size="44" fill="#991B1B" stroke="#D4AF37" stroke-width="1.2">9</text>
+
+                                <!-- Crossed Arms & Watch -->
+                                <path d="M98 440 C138 430, 224 438, 336 454 C354 457, 360 484, 336 490 C242 504, 144 496, 102 478 C86 471, 86 444, 98 440 Z" fill="url(#skinMain)" stroke="#8C583A" stroke-width="1.4"/>
+                                <path d="M356 438 C310 428, 214 444, 124 466 C106 470, 106 496, 128 500 C222 510, 314 496, 356 478 C370 472, 368 442, 356 438 Z" fill="url(#skinMain)" stroke="#8C583A" stroke-width="1.4"/>
+
+                                <g transform="translate(184, 458) rotate(-10)">
+                                    <rect x="4" y="-8" width="16" height="44" rx="3" fill="#27272F" stroke="#71717A" stroke-width="1"/>
+                                    <circle cx="12" cy="14" r="13" fill="#0F172A" stroke="#D4AF37" stroke-width="2.5"/>
+                                    <line x1="12" y1="14" x2="12" y2="6" stroke="#F8FAFC" stroke-width="1.6" stroke-linecap="round"/>
+                                    <line x1="12" y1="14" x2="18" y2="16" stroke="#FF4500" stroke-width="1.4" stroke-linecap="round"/>
+                                </g>
+
+                                <!-- Seamless Dark Bottom Fade -->
+                                <rect x="0" y="445" width="460" height="95" fill="url(#vignetteBottom)"/>
+                            </svg>
+
+                            <!-- Bottom Overlay Caption -->
+                            <div class="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-canvas via-canvas/95 to-transparent z-20 flex items-center justify-between">
+                                <div>
+                                    <div class="font-display text-xl text-offwhite tracking-wide">MUNAF</div>
+                                    <div class="font-mono text-[10px] text-champagne uppercase">Luxury Website Designer & Developer</div>
+                                </div>
+                                <span class="px-2.5 py-1 rounded-full bg-blaze/20 border border-blaze/40 font-mono text-[10px] text-blaze font-bold">
+                                    INDIA • WORLDWIDE
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- IMPACT METRICS STRIP -->
+            <div data-frame-label="METRICS // PROOF" class="figma-node boot-node mt-10 bg-surface/90 rounded-2xl p-6 sm:p-8 grid grid-cols-1 sm:grid-cols-3 gap-6">
+                <span class="f-badge">METRICS // PROOF</span>
+                <span class="f-handle tl"></span><span class="f-handle tr"></span><span class="f-handle bl"></span><span class="f-handle br"></span>
+
+                <div class="flex items-center gap-4">
+                    <span class="font-display text-5xl sm:text-6xl text-blaze leading-none">40+</span>
+                    <div>
+                        <div class="font-mono text-xs font-bold text-offwhite uppercase">Luxury Sites Shipped</div>
+                        <div class="text-xs text-muted mt-0.5">Bespoke dark & editorial builds</div>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-4 sm:border-l sm:border-[#1E1E26] sm:pl-6">
+                    <span class="font-display text-5xl sm:text-6xl text-champagne leading-none">99%</span>
+                    <div>
+                        <div class="font-mono text-xs font-bold text-offwhite uppercase">Client Satisfaction</div>
+                        <div class="text-xs text-muted mt-0.5">Direct founder-to-founder care</div>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-4 sm:border-l sm:border-[#1E1E26] sm:pl-6">
+                    <span class="font-display text-5xl sm:text-6xl text-offwhite leading-none">07 DAYS</span>
+                    <div>
+                        <div class="font-mono text-xs font-bold text-offwhite uppercase">Avg Turnaround</div>
+                        <div class="text-xs text-muted mt-0.5">Fast launch without shortcuts</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. CONTINUOUS STUDIO STACK MARQUEE -->
+    <section class="border-b border-[#1E1E26] bg-surface py-3.5 overflow-hidden">
+        <div class="marquee-strip font-mono text-xs font-semibold text-offwhite/90 flex items-center gap-10">
+            <span class="text-champagne">LUXURY WEB ENGINEERING</span><span class="text-blaze">✦</span>
+            <span>Next.js</span><span class="text-blaze">•</span>
+            <span>React</span><span class="text-blaze">•</span>
+            <span>Tailwind CSS</span><span class="text-blaze">•</span>
+            <span>TypeScript</span><span class="text-blaze">•</span>
+            <span>GSAP Choreography</span><span class="text-blaze">•</span>
+            <span>Three.js 3D Showcases</span><span class="text-blaze">•</span>
+            <span>Figma Design Systems</span><span class="text-blaze">•</span>
+            <span>99+ Mobile Speed</span><span class="text-blaze">•</span>
+            <!-- Seamless Loop Duplicate -->
+            <span class="text-champagne">LUXURY WEB ENGINEERING</span><span class="text-blaze">✦</span>
+            <span>Next.js</span><span class="text-blaze">•</span>
+            <span>React</span><span class="text-blaze">•</span>
+            <span>Tailwind CSS</span><span class="text-blaze">•</span>
+            <span>TypeScript</span><span class="text-blaze">•</span>
+            <span>GSAP Choreography</span><span class="text-blaze">•</span>
+            <span>Three.js 3D Showcases</span><span class="text-blaze">•</span>
+            <span>Figma Design Systems</span><span class="text-blaze">•</span>
+            <span>99+ Mobile Speed</span><span class="text-blaze">•</span>
+        </div>
+    </section>
+
+    <!-- 4. SELECTED WORK (4 LUXURY CASE STUDIES) -->
+    <section id="work" class="py-20 lg:py-28 border-b border-[#1E1E26]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
+                <div>
+                    <span class="font-mono text-[11px] text-champagne uppercase tracking-widest block mb-2">SELECTED WORK // FLAGSHIP BUILDS</span>
+                    <h2 class="font-display text-5xl sm:text-7xl lg:text-8xl leading-[0.90] uppercase tracking-tight">
+                        <span class="text-offwhite">WORK THAT </span>
+                        <span class="text-blaze">SHIPS.</span>
+                    </h2>
+                </div>
+                <p class="text-xs sm:text-sm text-[#B8B8C2] max-w-md leading-relaxed">
+                    Every website is crafted from scratch with high-contrast luxury art direction, fluid motion, and conversion-focused architecture. Click any project to inspect deliverables.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+
+                <!-- 01 AURELIA HOROLOGY -->
+                <article data-frame-label="CARD // 01-AURELIA" class="figma-node scroll-node bg-surface rounded-2xl p-6 sm:p-8 flex flex-col justify-between group">
+                    <span class="f-badge">CARD // 01-AURELIA</span>
+                    <span class="f-handle tl"></span><span class="f-handle tr"></span><span class="f-handle bl"></span><span class="f-handle br"></span>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="font-display text-4xl text-blaze leading-none">01</span>
+                            <span class="px-2.5 py-1 rounded-full bg-champagne/10 border border-champagne/30 font-mono text-[10px] text-champagne uppercase">Watchmaking • 3D E-Commerce</span>
+                        </div>
+                        <h3 class="font-display text-3xl sm:text-4xl text-offwhite uppercase tracking-wide group-hover:text-blaze transition-colors">
+                            AURELIA HOROLOGY
+                        </h3>
+                        <p class="mt-3 text-xs sm:text-sm text-[#B0B0BA] leading-relaxed">
+                            Bespoke Luxury Watchmaker E-Commerce & 3D Showcase featuring interactive macro dial lighting, collector concierge appointments, and sub-second page transitions.
+                        </p>
+                        <div class="mt-5 p-3.5 rounded-xl bg-canvas border border-[#1E1E26] space-y-2">
+                            <div class="flex items-center justify-between font-mono text-[10px]">
+                                <span class="text-champagne">3D Dial Inspection & Concierge</span>
+                                <span class="text-offwhite">Three.js + Next.js</span>
+                            </div>
+                            <div class="w-full h-1.5 rounded-full bg-[#18181F] overflow-hidden">
+                                <div class="h-full bg-gradient-to-r from-blaze to-champagne rounded-full" style="width: 95%;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 pt-5 border-t border-[#1E1E26] flex flex-wrap items-center justify-between gap-3">
+                        <div class="flex flex-wrap gap-1.5 font-mono text-[10px] text-muted">
+                            <span class="px-2.5 py-1 rounded-md bg-canvas border border-[#1E1E26]">Next.js</span>
+                            <span class="px-2.5 py-1 rounded-md bg-canvas border border-[#1E1E26]">Three.js</span>
+                            <span class="px-2.5 py-1 rounded-md bg-canvas border border-[#1E1E26]">Tailwind</span>
+                        </div>
+                        <button type="button" onclick="openCaseStudy(0)" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-blaze hover:bg-blazeHover text-white font-mono text-[11px] font-bold uppercase tracking-wider transition-all cursor-pointer">
+                            <span>Inspect Case Study</span>
+                            <span>↗</span>
+                        </button>
+                    </div>
+                </article>
+
+                <!-- 02 NOIR ATELIER -->
+                <article data-frame-label="CARD // 02-NOIR" class="figma-node scroll-node bg-surface rounded-2xl p-6 sm:p-8 flex flex-col justify-between group">
+                    <span class="f-badge">CARD // 02-NOIR</span>
+                    <span class="f-handle tl"></span><span class="f-handle tr"></span><span class="f-handle bl"></span><span class="f-handle br"></span>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="font-display text-4xl text-blaze leading-none">02</span>
+                            <span class="px-2.5 py-1 rounded-full bg-champagne/10 border border-champagne/30 font-mono text-[10px] text-champagne uppercase">Haute Couture • Runway</span>
+                        </div>
+                        <h3 class="font-display text-3xl sm:text-4xl text-offwhite uppercase tracking-wide group-hover:text-blaze transition-colors">
+                            NOIR ATELIER
+                        </h3>
+                        <p class="mt-3 text-xs sm:text-sm text-[#B0B0BA] leading-relaxed">
+                            High-Fashion Editorial Runway & Lookbook Experience built with smooth scroll choreography, limited-drop reservations, and monochrome luxury typography.
+                        </p>
+                        <div class="mt-5 p-3.5 rounded-xl bg-canvas border border-[#1E1E26] space-y-2">
+                            <div class="flex items-center justify-between font-mono text-[10px]">
+                                <span class="text-champagne">Editorial Runway Choreography</span>
+                                <span class="text-offwhite">GSAP + Custom Cart</span>
+                            </div>
+                            <div class="w-full h-1.5 rounded-full bg-[#18181F] overflow-hidden">
+                                <div class="h-full bg-gradient-to-r from-blaze to-champagne rounded-full" style="width: 92%;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 pt-5 border-t border-[#1E1E26] flex flex-wrap items-center justify-between gap-3">
+                        <div class="flex flex-wrap gap-1.5 font-mono text-[10px] text-muted">
+                            <span class="px-2.5 py-1 rounded-md bg-canvas border border-[#1E1E26]">React</span>
+                            <span class="px-2.5 py-1 rounded-md bg-canvas border border-[#1E1E26]">GSAP</span>
+                            <span class="px-2.5 py-1 rounded-md bg-canvas border border-[#1E1E26]">Editorial UI</span>
+                        </div>
+                        <button type="button" onclick="openCaseStudy(1)" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-blaze hover:bg-blazeHover text-white font-mono text-[11px] font-bold uppercase tracking-wider transition-all cursor-pointer">
+                            <span>Inspect Case Study</span>
+                            <span>↗</span>
+                        </button>
+                    </div>
+                </article>
+
+                <!-- 03 VELOURA ESTATES -->
+                <article data-frame-label="CARD // 03-VELOURA" class="figma-node scroll-node bg-surface rounded-2xl p-6 sm:p-8 flex flex-col justify-between group">
+                    <span class="f-badge">CARD // 03-VELOURA</span>
+                    <span class="f-handle tl"></span><span class="f-handle tr"></span><span class="f-handle bl"></span><span class="f-handle br"></span>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="font-display text-4xl text-blaze leading-none">03</span>
+                            <span class="px-2.5 py-1 rounded-full bg-champagne/10 border border-champagne/30 font-mono text-[10px] text-champagne uppercase">Luxury Real Estate</span>
+                        </div>
+                        <h3 class="font-display text-3xl sm:text-4xl text-offwhite uppercase tracking-wide group-hover:text-blaze transition-colors">
+                            VELOURA ESTATES
+                        </h3>
+                        <p class="mt-3 text-xs sm:text-sm text-[#B0B0BA] leading-relaxed">
+                            Ultra-Luxury Penthouse & Architectural Real Estate Portal featuring interactive villa floorplans, twilight architectural tours, and private VIP viewing booking.
+                        </p>
+                        <div class="mt-5 p-3.5 rounded-xl bg-canvas border border-[#1E1E26] space-y-2">
+                            <div class="flex items-center justify-between font-mono text-[10px]">
+                                <span class="text-champagne">Interactive Penthouse Floorplans</span>
+                                <span class="text-offwhite">TypeScript + Motion</span>
+                            </div>
+                            <div class="w-full h-1.5 rounded-full bg-[#18181F] overflow-hidden">
+                                <div class="h-full bg-gradient-to-r from-blaze to-champagne rounded-full" style="width: 96%;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 pt-5 border-t border-[#1E1E26] flex flex-wrap items-center justify-between gap-3">
+                        <div class="flex flex-wrap gap-1.5 font-mono text-[10px] text-muted">
+                            <span class="px-2.5 py-1 rounded-md bg-canvas border border-[#1E1E26]">TypeScript</span>
+                            <span class="px-2.5 py-1 rounded-md bg-canvas border border-[#1E1E26]">Framer Motion</span>
+                            <span class="px-2.5 py-1 rounded-md bg-canvas border border-[#1E1E26]">VIP Booking</span>
+                        </div>
+                        <button type="button" onclick="openCaseStudy(2)" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-blaze hover:bg-blazeHover text-white font-mono text-[11px] font-bold uppercase tracking-wider transition-all cursor-pointer">
+                            <span>Inspect Case Study</span>
+                            <span>↗</span>
+                        </button>
+                    </div>
+                </article>
+
+                <!-- 04 KINETIC STUDIO -->
+                <article data-frame-label="CARD // 04-KINETIC" class="figma-node scroll-node bg-surface rounded-2xl p-6 sm:p-8 flex flex-col justify-between group">
+                    <span class="f-badge">CARD // 04-KINETIC</span>
+                    <span class="f-handle tl"></span><span class="f-handle tr"></span><span class="f-handle bl"></span><span class="f-handle br"></span>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="font-display text-4xl text-blaze leading-none">04</span>
+                            <span class="px-2.5 py-1 rounded-full bg-champagne/10 border border-champagne/30 font-mono text-[10px] text-champagne uppercase">Creative Motion Agency</span>
+                        </div>
+                        <h3 class="font-display text-3xl sm:text-4xl text-offwhite uppercase tracking-wide group-hover:text-blaze transition-colors">
+                            KINETIC STUDIO
+                        </h3>
+                        <p class="mt-3 text-xs sm:text-sm text-[#B0B0BA] leading-relaxed">
+                            Creative Agency & Interactive Motion Flagship engineered with bold Swiss grid typography, interactive project indexing, and streamlined client brief capture.
+                        </p>
+                        <div class="mt-5 p-3.5 rounded-xl bg-canvas border border-[#1E1E26] space-y-2">
+                            <div class="flex items-center justify-between font-mono text-[10px]">
+                                <span class="text-champagne">Swiss Grid & Interactive Motion</span>
+                                <span class="text-offwhite">100/100 Lighthouse</span>
+                            </div>
+                            <div class="w-full h-1.5 rounded-full bg-[#18181F] overflow-hidden">
+                                <div class="h-full bg-gradient-to-r from-blaze to-champagne rounded-full" style="width: 98%;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 pt-5 border-t border-[#1E1E26] flex flex-wrap items-center justify-between gap-3">
+                        <div class="flex flex-wrap gap-1.5 font-mono text-[10px] text-muted">
+                            <span class="px-2.5 py-1 rounded-md bg-canvas border border-[#1E1E26]">Next.js</span>
+                            <span class="px-2.5 py-1 rounded-md bg-canvas border border-[#1E1E26]">Tailwind CSS</span>
+                            <span class="px-2.5 py-1 rounded-md bg-canvas border border-[#1E1E26]">Motion UI</span>
+                        </div>
+                        <button type="button" onclick="openCaseStudy(3)" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-blaze hover:bg-blazeHover text-white font-mono text-[11px] font-bold uppercase tracking-wider transition-all cursor-pointer">
+                            <span>Inspect Case Study</span>
+                            <span>↗</span>
+                        </button>
+                    </div>
+                </article>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. TRANSPARENT PRICING TIERS -->
+    <section id="pricing" class="py-20 lg:py-28 border-b border-[#1E1E26]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
+                <div>
+                    <span class="font-mono text-[11px] text-champagne uppercase tracking-widest block mb-2">TRANSPARENT PACKAGES // CLEAR INVESTMENT</span>
+                    <h2 class="font-display text-5xl sm:text-7xl lg:text-8xl leading-[0.90] uppercase tracking-tight">
+                        <span class="text-offwhite">LUXURY </span>
+                        <span class="text-blaze">PRICING.</span>
+                    </h2>
+                </div>
+                <p class="text-xs sm:text-sm text-[#B8B8C2] max-w-md leading-relaxed">
+                    Select the package tailored to your brand stage. Clicking <strong class="text-offwhite">SELECT TIER →</strong> automatically pre-fills the project brief form below.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 items-stretch">
+
+                <!-- TIER 01: STARTER LUXURY -->
+                <div data-frame-label="TIER // 01-STARTER" class="figma-node scroll-node bg-surface rounded-2xl p-6 sm:p-8 flex flex-col justify-between">
+                    <span class="f-badge">TIER // 01-STARTER</span>
+                    <span class="f-handle tl"></span><span class="f-handle tr"></span><span class="f-handle bl"></span><span class="f-handle br"></span>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="font-mono text-[11px] text-champagne font-bold uppercase tracking-wider">STARTER LUXURY</span>
+                            <span class="px-2.5 py-0.5 rounded-full bg-canvas border border-[#1E1E26] font-mono text-[10px] text-muted">3–5 DAYS</span>
+                        </div>
+                        <div class="font-display text-4xl sm:text-5xl text-offwhite tracking-tight">
+                            ₹2,500 – ₹5,000
+                        </div>
+                        <p class="mt-3 text-xs text-[#A8A8B3] leading-relaxed">
+                            Landing page or personal executive portfolio with dark luxury UI, mobile responsiveness, and instant WhatsApp integration.
+                        </p>
+                        <ul class="mt-6 pt-6 border-t border-[#1E1E26] space-y-3 text-xs sm:text-sm text-offwhite/90">
+                            <li class="flex items-center gap-2.5"><span class="text-blaze font-bold">✓</span> Landing Page / Personal Portfolio</li>
+                            <li class="flex items-center gap-2.5"><span class="text-blaze font-bold">✓</span> Dark Luxury UI & Typography</li>
+                            <li class="flex items-center gap-2.5"><span class="text-blaze font-bold">✓</span> 100% Mobile Responsive</li>
+                            <li class="flex items-center gap-2.5"><span class="text-blaze font-bold">✓</span> WhatsApp Direct Integration</li>
+                        </ul>
+                    </div>
+
+                    <button type="button" onclick="selectTier('₹2,500 – ₹5,000', 'Starter Luxury (Landing / Portfolio)')" class="mt-8 w-full py-3.5 px-5 rounded-full border border-[#1E1E26] bg-canvas hover:bg-blaze hover:border-blaze text-offwhite font-mono text-xs font-bold uppercase tracking-wider transition-all cursor-pointer">
+                        SELECT TIER →
+                    </button>
+                </div>
+
+                <!-- TIER 02: SIGNATURE BRAND (MOST POPULAR) -->
+                <div data-frame-label="TIER // 02-SIGNATURE" class="figma-node scroll-node bg-surface rounded-2xl p-6 sm:p-8 flex flex-col justify-between border-2 border-blaze shadow-[0_20px_50px_rgba(255,69,0,0.18)]">
+                    <span class="f-badge">TIER // 02-SIGNATURE</span>
+                    <span class="f-handle tl"></span><span class="f-handle tr"></span><span class="f-handle bl"></span><span class="f-handle br"></span>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="font-mono text-[11px] text-blaze font-bold uppercase tracking-wider">SIGNATURE BRAND</span>
+                            <span class="px-2.5 py-0.5 rounded-full bg-blaze text-white font-mono text-[10px] font-bold">MOST POPULAR</span>
+                        </div>
+                        <div class="font-display text-4xl sm:text-5xl text-offwhite tracking-tight">
+                            ₹5,000 – ₹10,000
+                        </div>
+                        <p class="mt-3 text-xs text-[#C4C4CE] leading-relaxed">
+                            Multi-page luxury business website with custom motion/animations, interactive showcases, and SEO & speed optimization.
+                        </p>
+                        <ul class="mt-6 pt-6 border-t border-[#1E1E26] space-y-3 text-xs sm:text-sm text-offwhite">
+                            <li class="flex items-center gap-2.5"><span class="text-champagne font-bold">✦</span> Multi-Page Luxury Business Website</li>
+                            <li class="flex items-center gap-2.5"><span class="text-champagne font-bold">✦</span> Custom Motion & Scroll Animations</li>
+                            <li class="flex items-center gap-2.5"><span class="text-champagne font-bold">✦</span> SEO & Speed Optimization (95+)</li>
+                            <li class="flex items-center gap-2.5"><span class="text-champagne font-bold">✦</span> WhatsApp + Gmail Lead Flows</li>
+                        </ul>
+                    </div>
+
+                    <button type="button" onclick="selectTier('₹5,000 – ₹10,000', 'Signature Brand (Multi-Page Business)')" class="mt-8 w-full py-3.5 px-5 rounded-full bg-blaze hover:bg-blazeHover text-white font-mono text-xs font-bold uppercase tracking-wider transition-all shadow-lg shadow-blaze/30 cursor-pointer">
+                        SELECT TIER →
+                    </button>
+                </div>
+
+                <!-- TIER 03: FLAGSHIP BESPOKE -->
+                <div data-frame-label="TIER // 03-FLAGSHIP" class="figma-node scroll-node bg-surface rounded-2xl p-6 sm:p-8 flex flex-col justify-between">
+                    <span class="f-badge">TIER // 03-FLAGSHIP</span>
+                    <span class="f-handle tl"></span><span class="f-handle tr"></span><span class="f-handle bl"></span><span class="f-handle br"></span>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="font-mono text-[11px] text-champagne font-bold uppercase tracking-wider">FLAGSHIP BESPOKE</span>
+                            <span class="px-2.5 py-0.5 rounded-full bg-champagne/10 border border-champagne/30 font-mono text-[10px] text-champagne">VIP BUILD</span>
+                        </div>
+                        <div class="font-display text-4xl sm:text-5xl text-offwhite tracking-tight">
+                            ₹10,000 – ₹15,000
+                        </div>
+                        <p class="mt-3 text-xs text-[#A8A8B3] leading-relaxed">
+                            Full-scale custom interactive web experience with bespoke animations, booking or e-commerce flows, and priority support.
+                        </p>
+                        <ul class="mt-6 pt-6 border-t border-[#1E1E26] space-y-3 text-xs sm:text-sm text-offwhite/90">
+                            <li class="flex items-center gap-2.5"><span class="text-blaze font-bold">✓</span> Full-Scale Custom Interactive Web Experience</li>
+                            <li class="flex items-center gap-2.5"><span class="text-blaze font-bold">✓</span> Bespoke Animations & Micro-Interactions</li>
+                            <li class="flex items-center gap-2.5"><span class="text-blaze font-bold">✓</span> Booking / E-Commerce Flows</li>
+                            <li class="flex items-center gap-2.5"><span class="text-blaze font-bold">✓</span> Priority Support & 30-Day Care</li>
+                        </ul>
+                    </div>
+
+                    <button type="button" onclick="selectTier('₹10,000 – ₹15,000', 'Flagship Bespoke (Full Interactive Experience)')" class="mt-8 w-full py-3.5 px-5 rounded-full border border-[#1E1E26] bg-canvas hover:bg-blaze hover:border-blaze text-offwhite font-mono text-xs font-bold uppercase tracking-wider transition-all cursor-pointer">
+                        SELECT TIER →
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. ABOUT & STUDIO CRAFT -->
+    <section id="about" class="py-20 lg:py-28 border-b border-[#1E1E26]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
+                <div class="lg:col-span-7">
+                    <span class="font-mono text-[11px] text-champagne uppercase tracking-widest block mb-2">ABOUT MUNAF // WHY WORK WITH ME</span>
+                    <h2 class="font-display text-5xl sm:text-7xl lg:text-8xl leading-[0.90] uppercase tracking-tight">
+                        <span class="text-offwhite block">NOT JUST CODE.</span>
+                        <span class="text-blaze block">PRESTIGE THAT CONVERTS.</span>
+                    </h2>
+                </div>
+                <div class="lg:col-span-5 text-xs sm:text-sm text-[#C4C4CE] leading-relaxed space-y-3">
+                    <p>
+                        When a client asks for your website link, your first impression decides your pricing power. Generic templates make premium businesses look ordinary.
+                    </p>
+                    <p>
+                        I craft bespoke dark-mode editorial websites with sharp condensed typography, tactile motion choreography, and instant mobile responsiveness—so every link you send commands authority.
+                    </p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div data-frame-label="PILLAR // 01-DIRECTION" class="figma-node scroll-node bg-surface rounded-2xl p-6">
+                    <span class="f-badge">PILLAR // 01-DIRECTION</span>
+                    <span class="f-handle tl"></span><span class="f-handle tr"></span><span class="f-handle bl"></span><span class="f-handle br"></span>
+                    <span class="font-mono text-xs text-blaze font-bold">01 // ART DIRECTION</span>
+                    <h3 class="font-display text-2xl text-offwhite uppercase mt-2 mb-2">Bespoke Luxury Aesthetic</h3>
+                    <p class="text-xs text-muted leading-relaxed">Editorial typography, balanced contrast, and tailored palettes built specifically for your brand positioning.</p>
+                </div>
+
+                <div data-frame-label="PILLAR // 02-SPEED" class="figma-node scroll-node bg-surface rounded-2xl p-6">
+                    <span class="f-badge">PILLAR // 02-SPEED</span>
+                    <span class="f-handle tl"></span><span class="f-handle tr"></span><span class="f-handle bl"></span><span class="f-handle br"></span>
+                    <span class="font-mono text-xs text-champagne font-bold">02 // PERFORMANCE</span>
+                    <h3 class="font-display text-2xl text-offwhite uppercase mt-2 mb-2">Zero-Lag Mobile Speed</h3>
+                    <p class="text-xs text-muted leading-relaxed">Lightweight, modern frontend engineering that loads instantaneously on every smartphone and desktop browser.</p>
+                </div>
+
+                <div data-frame-label="PILLAR // 03-MANIFESTO" class="figma-node scroll-node bg-blaze rounded-2xl p-6 text-white shadow-xl shadow-blaze/20">
+                    <span class="f-badge">PILLAR // 03-MANIFESTO</span>
+                    <span class="f-handle tl"></span><span class="f-handle tr"></span><span class="f-handle bl"></span><span class="f-handle br"></span>
+                    <span class="font-mono text-xs font-bold uppercase tracking-wider opacity-90">03 // STUDIO PROMISE</span>
+                    <blockquote class="font-display text-2xl sm:text-3xl uppercase leading-tight mt-2">
+                        "DESIGN THE PRESTIGE, ENGINEER THE SPEED, SHIP IT ON TIME."
+                    </blockquote>
+                    <div class="font-mono text-xs font-bold mt-4 pt-3 border-t border-white/25">— MUNAF</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. CONTACT & INSTANT CLIENT BRIEF GENERATOR -->
+    <section id="contact" class="py-20 lg:py-28 pb-36">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
+
+                <!-- Left Column: Direct WhatsApp & Gmail -->
+                <div class="lg:col-span-5 space-y-6">
+                    <div>
+                        <span class="font-mono text-[11px] text-champagne uppercase tracking-widest block mb-2">DIRECT CONTACT // FAST RESPONSE</span>
+                        <h2 class="font-display text-5xl sm:text-6xl leading-[0.90] uppercase text-offwhite">
+                            LET'S WORK<br><span class="text-blaze">TOGETHER.</span>
+                        </h2>
+                        <p class="mt-3 text-xs sm:text-sm text-[#C4C4CE] leading-relaxed">
+                            Message me directly on WhatsApp or Gmail, or configure your project brief on the right and send it with one tap.
+                        </p>
+                    </div>
+
+                    <div class="space-y-3">
+                        <!-- Direct WhatsApp Card -->
+                        <div data-frame-label="CONTACT // WHATSAPP" class="figma-node scroll-node bg-surface rounded-xl p-4 flex items-center justify-between gap-3">
+                            <span class="f-badge">CONTACT // WHATSAPP</span>
+                            <span class="f-handle tl"></span><span class="f-handle tr"></span><span class="f-handle bl"></span><span class="f-handle br"></span>
+
+                            <a href="https://wa.me/919737828591?text=Hi%20Munaf%2C%20I%20saw%20your%20portfolio%20and%20want%20to%20build%20a%20luxury%20website." target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 group">
+                                <span class="w-10 h-10 rounded-lg bg-[#22C55E]/15 border border-[#22C55E]/30 text-[#22C55E] font-mono text-xs font-bold flex items-center justify-center">WA</span>
+                                <div>
+                                    <div class="font-mono text-[10px] text-muted uppercase">Direct WhatsApp</div>
+                                    <div class="text-sm font-semibold text-offwhite group-hover:text-blaze transition-colors">+91 97378 28591</div>
+                                </div>
+                            </a>
+                            <button type="button" onclick="copyText('+91 97378 28591', 'WhatsApp number copied!')" class="px-3 py-1.5 rounded-lg bg-canvas border border-[#1E1E26] hover:border-blaze font-mono text-[10px] text-muted hover:text-offwhite cursor-pointer">
+                                Copy
+                            </button>
+                        </div>
+
+                        <!-- Direct Gmail Card -->
+                        <div data-frame-label="CONTACT // GMAIL" class="figma-node scroll-node bg-surface rounded-xl p-4 flex items-center justify-between gap-3">
+                            <span class="f-badge">CONTACT // GMAIL</span>
+                            <span class="f-handle tl"></span><span class="f-handle tr"></span><span class="f-handle bl"></span><span class="f-handle br"></span>
+
+                            <div class="flex items-center gap-3 min-w-0">
+                                <span class="w-10 h-10 shrink-0 rounded-lg bg-blaze/15 border border-blaze/30 text-blaze font-mono text-xs font-bold flex items-center justify-center">GM</span>
+                                <div class="min-w-0">
+                                    <div class="font-mono text-[10px] text-muted uppercase">Direct Gmail</div>
+                                    <a href="mailto:lalmunaf447@gmail.com?subject=Luxury%20Website%20Inquiry%20%E2%80%94%20Munaf" class="text-sm font-semibold text-offwhite hover:text-blaze transition-colors truncate block">
+                                        lalmunaf447@gmail.com
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-1.5 shrink-0">
+                                <a href="mailto:lalmunaf447@gmail.com?subject=Luxury%20Website%20Inquiry%20%E2%80%94%20Munaf" class="px-3 py-1.5 rounded-lg bg-blaze hover:bg-blazeHover font-mono text-[10px] font-bold text-white transition-colors">
+                                    Email
+                                </a>
+                                <button type="button" onclick="copyText('lalmunaf447@gmail.com', 'Gmail copied: lalmunaf447@gmail.com')" class="px-2.5 py-1.5 rounded-lg bg-canvas border border-[#1E1E26] hover:border-blaze font-mono text-[10px] text-muted hover:text-offwhite cursor-pointer">
+                                    Copy
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Instant Client Brief Builder -->
+                <div class="lg:col-span-7">
+                    <div data-frame-label="BUILDER // BRIEF-GENERATOR" class="figma-node scroll-node bg-surface rounded-2xl p-6 sm:p-8 shadow-2xl">
+                        <span class="f-badge">BUILDER // BRIEF-GENERATOR</span>
+                        <span class="f-handle tl"></span><span class="f-handle tr"></span><span class="f-handle bl"></span><span class="f-handle br"></span>
+
+                        <div class="flex items-center justify-between mb-6">
+                            <div>
+                                <span class="font-mono text-[11px] text-blaze uppercase tracking-widest block">INSTANT CLIENT BRIEF</span>
+                                <h3 class="font-display text-3xl text-offwhite uppercase mt-0.5">CONFIGURE YOUR WEBSITE</h3>
+                            </div>
+                            <span class="px-3 py-1 rounded-full bg-[#22C55E]/15 border border-[#22C55E]/30 font-mono text-[10px] text-[#22C55E] font-bold">
+                                ● REPLIES FAST
+                            </span>
+                        </div>
+
+                        <form id="brief-form" onsubmit="sendBriefWhatsApp(event)" class="space-y-5">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="client-name" class="block font-mono text-[10px] text-muted uppercase mb-1.5">Your Name / Brand *</label>
+                                    <input type="text" id="client-name" required placeholder="e.g. Aarav Shah / Aurelia Studio" class="w-full px-4 py-3 rounded-xl bg-canvas border border-[#1E1E26] focus:border-blaze focus:outline-none text-sm text-offwhite placeholder:text-muted/50">
+                                </div>
+
+                                <div>
+                                    <label for="website-type" class="block font-mono text-[10px] text-muted uppercase mb-1.5">Website Type</label>
+                                    <select id="website-type" class="w-full px-4 py-3 rounded-xl bg-canvas border border-[#1E1E26] focus:border-blaze focus:outline-none text-sm text-offwhite">
+                                        <option value="Starter Luxury (Landing / Portfolio)">Starter Luxury (Landing / Portfolio)</option>
+                                        <option value="Signature Brand (Multi-Page Business)" selected>Signature Brand (Multi-Page Business)</option>
+                                        <option value="Flagship Bespoke (Full Interactive Experience)">Flagship Bespoke (Full Interactive Experience)</option>
+                                        <option value="Luxury E-Commerce / Storefront">Luxury E-Commerce / Storefront</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Budget Tier Selector Pills -->
+                            <div>
+                                <label class="block font-mono text-[10px] text-muted uppercase mb-2">Budget Tier (₹)</label>
+                                <input type="hidden" id="selected-budget" value="₹5,000 – ₹10,000">
+                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                                    <button type="button" data-tier="₹2,500 – ₹5,000" onclick="updateBudgetPill('₹2,500 – ₹5,000')" class="tier-pill py-3 px-3 rounded-xl border border-[#1E1E26] bg-canvas text-offwhite hover:border-blaze font-mono text-xs font-semibold transition-all cursor-pointer">
+                                        ₹2,500 – ₹5,000
+                                    </button>
+                                    <button type="button" data-tier="₹5,000 – ₹10,000" onclick="updateBudgetPill('₹5,000 – ₹10,000')" class="tier-pill py-3 px-3 rounded-xl border border-blaze bg-blaze text-white font-mono text-xs font-bold transition-all cursor-pointer shadow-md shadow-blaze/25">
+                                        ₹5,000 – ₹10,000
+                                    </button>
+                                    <button type="button" data-tier="₹10,000 – ₹15,000" onclick="updateBudgetPill('₹10,000 – ₹15,000')" class="tier-pill py-3 px-3 rounded-xl border border-[#1E1E26] bg-canvas text-offwhite hover:border-blaze font-mono text-xs font-semibold transition-all cursor-pointer">
+                                        ₹10,000 – ₹15,000
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Timeline + Notes -->
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="project-timeline" class="block font-mono text-[10px] text-muted uppercase mb-1.5">Target Timeline</label>
+                                    <select id="project-timeline" class="w-full px-4 py-3 rounded-xl bg-canvas border border-[#1E1E26] focus:border-blaze focus:outline-none text-sm text-offwhite">
+                                        <option value="Express (3–5 Days)">Express (3–5 Days)</option>
+                                        <option value="Standard (7–10 Days)" selected>Standard (7–10 Days)</option>
+                                        <option value="Flexible (2 Weeks)">Flexible (2 Weeks)</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="project-notes" class="block font-mono text-[10px] text-muted uppercase mb-1.5">Project Notes</label>
+                                    <textarea id="project-notes" rows="3" placeholder="Brand, goals, reference sites, must-have features..." class="w-full px-4 py-3 rounded-xl bg-canvas border border-[#1E1E26] focus:border-blaze focus:outline-none text-sm text-offwhite placeholder:text-muted/50 resize-none"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="flex flex-wrap items-center gap-3 pt-2">
+                                <button type="submit" class="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-full bg-blaze hover:bg-blazeHover text-white font-mono text-xs font-bold uppercase tracking-wider transition-all shadow-lg shadow-blaze/35 cursor-pointer">
+                                    <span>Send Brief on WhatsApp</span>
+                                    <span>→</span>
+                                </button>
+                                <button type="button" onclick="sendBriefGmail()" class="inline-flex items-center gap-2 px-6 py-3.5 rounded-full border border-[#1E1E26] bg-canvas hover:border-champagne text-offwhite hover:text-champagne font-mono text-xs font-bold uppercase tracking-wider transition-all cursor-pointer">
+                                    <span>Send via Gmail</span>
+                                </button>
+                            </div>
+                            <p class="font-mono text-[10px] text-muted">No signup. Your brief opens pre-written in WhatsApp or Gmail — one tap to send.</p>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. FOOTER -->
+    <footer class="border-t border-[#1E1E26] bg-surface/60 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3 font-mono text-[11px] text-muted uppercase tracking-wider">
+            <span>© <span id="footer-year">2026</span> MUNAF — Luxury Website Designer &amp; Developer</span>
+            <a href="#home" class="hover:text-blaze transition-colors">Back to top ↑</a>
+        </div>
+    </footer>
+
+    <!-- FLOATING WHATSAPP -->
+    <a href="https://wa.me/919737828591?text=Hi%20Munaf%2C%20I%20saw%20your%20portfolio%20and%20want%20to%20build%20a%20luxury%20website." target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp" class="fixed bottom-5 right-5 z-[70] w-12 h-12 rounded-full bg-[#22C55E] text-[#080808] font-mono text-xs font-bold flex items-center justify-center shadow-xl shadow-[#22C55E]/30 hover:scale-110 transition-transform">WA</a>
+
+    <script>
+    /* =====================================================================
+       HELPERS
+       ===================================================================== */
+    var $ = function (s, r) { return (r || document).querySelector(s); };
+    var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+    var REDUCE = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    var FINE = !!(window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches);
+    function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
+    function rand(a, b) { return a + Math.random() * (b - a); }
+    function safe(fn) { try { fn(); } catch (err) { if (window.console) console.warn('[init]', err); } }
+
+    /* =====================================================================
+       TOASTS + COPY + SHARE
+       ===================================================================== */
+    function showToast(msg) {
+        var stack = document.getElementById('toast-stack');
+        if (!stack) return;
+        var t = document.createElement('div');
+        t.className = 'toast-in px-4 py-2.5 rounded-xl bg-surface border border-[#1E1E26] border-l-2 border-l-blaze text-offwhite font-mono text-[11px] shadow-2xl';
+        t.textContent = '✓  ' + msg;
+        stack.appendChild(t);
+        requestAnimationFrame(function () { requestAnimationFrame(function () { t.classList.add('show'); }); });
+        setTimeout(function () {
+            t.classList.remove('show');
+            setTimeout(function () { if (t.parentNode) t.parentNode.removeChild(t); }, 400);
+        }, 2600);
+    }
+    function fallbackCopy(text, cb) {
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.cssText = 'position:fixed;opacity:0;top:0;left:0';
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); } catch (e) {}
+        document.body.removeChild(ta);
+        cb();
+    }
+    function copyText(text, msg) {
+        var done = function () { showToast(msg || 'Copied!'); };
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(text).then(done).catch(function () { fallbackCopy(text, done); });
+        } else { fallbackCopy(text, done); }
+    }
+    function copyShareLink() { copyText(location.href.split('#')[0], 'Portfolio link copied — share it anywhere!'); }
+
+    /* =====================================================================
+       PORTRAIT UPLOAD (persisted in localStorage)
+       ===================================================================== */
+    var PHOTO_KEY = 'munaf_portrait_v1';
+    function applyPhoto(src) {
+        var img = $('#saved-user-photo'), svg = $('#default-munaf-svg'), rb = $('#reset-photo-btn');
+        if (!img || !svg) return;
+        img.src = src;
+        img.classList.remove('hidden');
+        svg.classList.add('hidden');
+        if (rb) rb.classList.remove('hidden');
+    }
+    function handlePhotoUpload(e) {
+        var file = e.target.files && e.target.files[0];
+        if (!file) return;
+        if (!/^image\//.test(file.type)) { showToast('Please choose an image file'); return; }
+        var reader = new FileReader();
+        reader.onload = function () {
+            var im = new Image();
+            im.onload = function () {
+                var max = 900, s = Math.min(1, max / Math.max(im.width, im.height));
+                var c = document.createElement('canvas');
+                c.width = Math.round(im.width * s); c.height = Math.round(im.height * s);
+                var ctx = c.getContext('2d');
+                ctx.fillStyle = '#0B0B0F'; ctx.fillRect(0, 0, c.width, c.height);
+                ctx.drawImage(im, 0, 0, c.width, c.height);
+                var data = c.toDataURL('image/jpeg', 0.86);
+                applyPhoto(data);
+                try { localStorage.setItem(PHOTO_KEY, data); showToast('Photo saved ✓'); }
+                catch (err) { showToast('Photo applied (too large to save)'); }
+            };
+            im.onerror = function () { showToast('Could not read that image'); };
+            im.src = reader.result;
+        };
+        reader.readAsDataURL(file);
+        e.target.value = '';
+    }
+    function resetPortraitToDefault() {
+        var img = $('#saved-user-photo'), svg = $('#default-munaf-svg'), rb = $('#reset-photo-btn');
+        if (img) { img.classList.add('hidden'); img.removeAttribute('src'); }
+        if (svg) svg.classList.remove('hidden');
+        if (rb) rb.classList.add('hidden');
+        try { localStorage.removeItem(PHOTO_KEY); } catch (e) {}
+        showToast('Default portrait restored');
+    }
+    function restorePhoto() { try { var d = localStorage.getItem(PHOTO_KEY); if (d) applyPhoto(d); } catch (e) {} }
+
+    /* =====================================================================
+       PRICING -> BRIEF FORM
+       ===================================================================== */
+    var PILL_ON = ['border-blaze', 'bg-blaze', 'text-white', 'font-bold', 'shadow-md', 'shadow-blaze/25'];
+    var PILL_OFF = ['border-[#1E1E26]', 'bg-canvas', 'text-offwhite', 'font-semibold'];
+    function updateBudgetPill(val) {
+        var h = $('#selected-budget'); if (h) h.value = val;
+        $$('.tier-pill').forEach(function (b) {
+            var on = b.getAttribute('data-tier') === val;
+            PILL_ON.forEach(function (c) { b.classList.toggle(c, on); });
+            PILL_OFF.forEach(function (c) { b.classList.toggle(c, !on); });
+        });
+    }
+    function selectTier(budget, type) {
+        updateBudgetPill(budget);
+        var sel = $('#website-type');
+        if (sel) { for (var i = 0; i < sel.options.length; i++) { if (sel.options[i].value === type) { sel.selectedIndex = i; break; } } }
+        var t = $('#contact');
+        if (t) t.scrollIntoView({ behavior: REDUCE ? 'auto' : 'smooth', block: 'start' });
+        var nm = $('#client-name');
+        setTimeout(function () { if (nm) nm.focus({ preventScroll: true }); }, 750);
+        showToast('Tier selected: ' + String(type).split(' (')[0]);
+    }
+    function buildBrief() {
+        var v = function (id) { var e = document.getElementById(id); return e ? e.value.trim() : ''; };
+        return [
+            'Hi Munaf! I found your portfolio and want to build a luxury website.',
+            '',
+            'Name / Brand: ' + (v('client-name') || '—'),
+            'Website Type: ' + v('website-type'),
+            'Budget: ' + v('selected-budget'),
+            'Timeline: ' + v('project-timeline'),
+            'Notes: ' + (v('project-notes') || '—')
+        ].join('\n');
+    }
+    function sendBriefWhatsApp(e) {
+        if (e && e.preventDefault) e.preventDefault();
+        window.open('https://wa.me/919737828591?text=' + encodeURIComponent(buildBrief()), '_blank', 'noopener');
+        showToast('Opening WhatsApp with your brief…');
+    }
+    function sendBriefGmail() {
+        var form = $('#brief-form');
+        if (form && form.reportValidity && !form.reportValidity()) return;
+        var nm = (document.getElementById('client-name') || {}).value || 'New Client';
+        location.href = 'mailto:lalmunaf447@gmail.com?subject=' + encodeURIComponent('Luxury Website Inquiry — ' + nm.trim()) + '&body=' + encodeURIComponent(buildBrief());
+        showToast('Opening Gmail with your brief…');
+    }
+
+    /* =====================================================================
+       CASE STUDY MODAL
+       NOTE: details below are sample copy — edit freely.
+       ===================================================================== */
+    var CASES = [
+        { no: '01', slug: '01-AURELIA', name: 'AURELIA HOROLOGY', tag: 'Watchmaking • 3D E-Commerce',
+          summary: 'A bespoke luxury watchmaker storefront with an interactive 3D dial inspector and a private collector concierge.',
+          challenge: 'High-ticket buyers need to feel the craftsmanship before they commit. Flat product photos were not building trust.',
+          solution: 'Macro dial lighting you can rotate in 3D, a concierge appointment flow, and sub-second page transitions that keep the experience feeling like a boutique.',
+          deliverables: ['Interactive 3D dial inspection', 'Collector concierge booking', 'Editorial product pages', 'Animated page transitions'],
+          stack: ['Next.js', 'Three.js', 'Tailwind'], stats: [['95+', 'Mobile speed'], ['3D', 'Dial inspection'], ['<1s', 'Page transitions']],
+          timeline: '10–14 days', budget: '₹10,000 – ₹15,000', tier: 'Flagship Bespoke (Full Interactive Experience)' },
+        { no: '02', slug: '02-NOIR', name: 'NOIR ATELIER', tag: 'Haute Couture • Runway',
+          summary: 'A high-fashion editorial runway and lookbook experience with monochrome luxury typography and limited-drop reservations.',
+          challenge: 'The brand wanted the drama of a runway show, but on a phone screen — without slowing the site down.',
+          solution: 'Scroll-choreographed lookbook sequences, a lightweight custom cart for limited drops, and tightly controlled monochrome typography.',
+          deliverables: ['Scroll-driven runway lookbook', 'Limited-drop reservation cart', 'Monochrome editorial UI', 'Mobile-first layouts'],
+          stack: ['React', 'GSAP', 'Editorial UI'], stats: [['92+', 'Mobile speed'], ['60fps', 'Scroll motion'], ['Drops', 'Reservations']],
+          timeline: '7–10 days', budget: '₹5,000 – ₹10,000', tier: 'Signature Brand (Multi-Page Business)' },
+        { no: '03', slug: '03-VELOURA', name: 'VELOURA ESTATES', tag: 'Luxury Real Estate',
+          summary: 'An ultra-luxury penthouse and architectural real estate portal with interactive floorplans and private VIP viewing booking.',
+          challenge: 'Serious buyers expect a private-client feel, not a generic listings grid.',
+          solution: 'Interactive villa floorplans, twilight architectural tours, and a discreet VIP viewing request flow.',
+          deliverables: ['Interactive penthouse floorplans', 'Twilight architectural tours', 'VIP viewing booking', 'Smooth motion system'],
+          stack: ['TypeScript', 'Framer Motion', 'VIP Booking'], stats: [['96+', 'Mobile speed'], ['VIP', 'Private booking'], ['Twilight', 'Tours']],
+          timeline: '10–14 days', budget: '₹10,000 – ₹15,000', tier: 'Flagship Bespoke (Full Interactive Experience)' },
+        { no: '04', slug: '04-KINETIC', name: 'KINETIC STUDIO', tag: 'Creative Motion Agency',
+          summary: 'A creative agency flagship built on a bold Swiss grid, with interactive project indexing and streamlined client brief capture.',
+          challenge: 'An agency site must itself prove the agency’s taste — and still load instantly.',
+          solution: 'Swiss-grid typography, an interactive project index, and a one-tap brief capture, tuned to a perfect Lighthouse score.',
+          deliverables: ['Swiss grid system', 'Interactive project index', 'One-tap client brief', '100/100 Lighthouse tuning'],
+          stack: ['Next.js', 'Tailwind CSS', 'Motion UI'], stats: [['100/100', 'Lighthouse'], ['Swiss', 'Grid system'], ['1-tap', 'Brief capture']],
+          timeline: '5–7 days', budget: '₹5,000 – ₹10,000', tier: 'Signature Brand (Multi-Page Business)' }
+    ];
+    var modalEl = null, lastFocus = null;
+    function ensureModal() {
+        if (modalEl) return modalEl;
+        var m = document.createElement('div');
+        m.id = 'case-modal';
+        m.setAttribute('role', 'dialog'); m.setAttribute('aria-modal', 'true'); m.setAttribute('aria-labelledby', 'cm-title');
+        m.innerHTML =
+            '<div class="cm-panel relative w-full max-w-3xl figma-node wireframe-scanning bg-surface rounded-2xl">' +
+            '<span class="f-badge" id="cm-badge">CASE</span>' +
+            '<span class="f-handle tl"></span><span class="f-handle tr"></span><span class="f-handle bl"></span><span class="f-handle br"></span>' +
+            '<button type="button" id="cm-close" aria-label="Close case study" class="absolute top-3 right-3 z-40 w-9 h-9 rounded-full bg-canvas border border-[#1E1E26] hover:border-blaze text-offwhite font-mono text-sm cursor-pointer">✕</button>' +
+            '<div class="cm-body max-h-[84vh] overflow-y-auto p-6 sm:p-8"></div></div>';
+        document.body.appendChild(m);
+        m.addEventListener('click', function (e) { if (e.target === m) closeCaseStudy(); });
+        $('#cm-close', m).addEventListener('click', closeCaseStudy);
+        modalEl = m;
+        return m;
+    }
+    function openCaseStudy(i) {
+        var d = CASES[i], m = ensureModal();
+        if (!d) return;
+        var chips = d.stack.map(function (s) { return '<span class="px-2.5 py-1 rounded-md bg-canvas border border-[#1E1E26] font-mono text-[10px] text-muted">' + s + '</span>'; }).join('');
+        var list = d.deliverables.map(function (s) { return '<li class="flex items-start gap-2.5"><span class="text-blaze font-bold">✓</span><span>' + s + '</span></li>'; }).join('');
+        var stats = d.stats.map(function (s) { return '<div class="rounded-xl bg-canvas border border-[#1E1E26] p-4"><div class="font-display text-3xl text-champagne leading-none">' + s[0] + '</div><div class="font-mono text-[10px] text-muted uppercase mt-1.5">' + s[1] + '</div></div>'; }).join('');
+        $('#cm-badge', m).textContent = 'CASE // ' + d.slug;
+        $('.cm-body', m).innerHTML =
+            '<div class="flex items-center gap-3 mb-3"><span class="font-display text-4xl text-blaze leading-none">' + d.no + '</span>' +
+            '<span class="px-2.5 py-1 rounded-full bg-champagne/10 border border-champagne/30 font-mono text-[10px] text-champagne uppercase">' + d.tag + '</span></div>' +
+            '<h3 id="cm-title" class="font-display text-4xl sm:text-5xl text-offwhite uppercase tracking-wide">' + d.name + '</h3>' +
+            '<p class="mt-3 text-sm text-[#C4C4CE] leading-relaxed">' + d.summary + '</p>' +
+            '<div class="mt-6 grid grid-cols-3 gap-3">' + stats + '</div>' +
+            '<div class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-5">' +
+            '<div><div class="font-mono text-[10px] text-blaze uppercase tracking-widest mb-1.5">The challenge</div><p class="text-xs sm:text-sm text-[#B0B0BA] leading-relaxed">' + d.challenge + '</p></div>' +
+            '<div><div class="font-mono text-[10px] text-blaze uppercase tracking-widest mb-1.5">The solution</div><p class="text-xs sm:text-sm text-[#B0B0BA] leading-relaxed">' + d.solution + '</p></div></div>' +
+            '<div class="mt-6 pt-5 border-t border-[#1E1E26]"><div class="font-mono text-[10px] text-champagne uppercase tracking-widest mb-3">Deliverables</div>' +
+            '<ul class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs sm:text-sm text-offwhite/90">' + list + '</ul></div>' +
+            '<div class="mt-5 flex flex-wrap gap-1.5">' + chips + '</div>' +
+            '<div class="mt-7 flex flex-wrap items-center justify-between gap-3 pt-5 border-t border-[#1E1E26]">' +
+            '<div class="font-mono text-[11px] text-muted">Timeline <span class="text-offwhite">' + d.timeline + '</span> • Tier <span class="text-offwhite">' + d.budget + '</span></div>' +
+            '<button type="button" onclick="startFromCase(' + i + ')" class="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-blaze hover:bg-blazeHover text-white font-mono text-xs font-bold uppercase tracking-wider transition-all shadow-lg shadow-blaze/30 cursor-pointer"><span>Start a similar project</span><span>→</span></button></div>';
+        $('.cm-body', m).scrollTop = 0;
+        lastFocus = document.activeElement;
+        document.body.style.overflow = 'hidden';
+        requestAnimationFrame(function () { m.setAttribute('data-open', '1'); });
+        setTimeout(function () { var c = $('#cm-close', m); if (c) c.focus({ preventScroll: true }); }, 60);
+    }
+    function closeCaseStudy() {
+        if (!modalEl) return;
+        modalEl.removeAttribute('data-open');
+        document.body.style.overflow = '';
+        if (lastFocus && lastFocus.focus) { try { lastFocus.focus({ preventScroll: true }); } catch (e) {} }
+    }
+    function startFromCase(i) {
+        var d = CASES[i]; if (!d) return;
+        closeCaseStudy();
+        setTimeout(function () { selectTier(d.budget, d.tier); }, 250);
+    }
+
+    /* =====================================================================
+       X-RAY MODE
+       ===================================================================== */
+    function toggleXray() {
+        var on = document.body.classList.toggle('xray-active');
+        var b = $('#xray-btn');
+        if (b) { b.setAttribute('aria-pressed', on ? 'true' : 'false'); b.firstElementChild.textContent = on ? 'X-RAY ON' : 'X-RAY'; b.classList.toggle('border-figmaCyan', on); b.classList.toggle('text-figmaCyan', on); }
+        showToast(on ? 'X-Ray on — every frame inspected' : 'X-Ray off');
+    }
+    function initXray() {
+        var b = document.createElement('button');
+        b.id = 'xray-btn'; b.type = 'button'; b.setAttribute('aria-pressed', 'false');
+        b.title = 'Toggle X-Ray (press X)';
+        b.className = 'fixed bottom-5 left-5 z-[70] inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-surface/95 backdrop-blur border border-[#1E1E26] hover:border-figmaCyan text-offwhite font-mono text-[11px] font-bold uppercase tracking-wider shadow-xl cursor-pointer transition-colors';
+        b.innerHTML = '<span>X-RAY</span>';
+        b.addEventListener('click', toggleXray);
+        document.body.appendChild(b);
+        document.addEventListener('keydown', function (e) {
+            var tag = (e.target && e.target.tagName) || '';
+            if (e.key === 'Escape') closeCaseStudy();
+            if ((e.key === 'x' || e.key === 'X') && !/INPUT|TEXTAREA|SELECT/.test(tag) && !e.metaKey && !e.ctrlKey && !e.altKey) toggleXray();
+        });
+    }
+
+    /* =====================================================================
+       BOOT SEQUENCE: watermark drop -> kinetic headline -> wireframe scan -> snap
+       bootPrep() hides the hero (under the intro); bootGo() releases it when
+       the intro curtains open.
+       ===================================================================== */
+    function bootPrep() {
+        if (REDUCE) return;
+        var nodes = $$('#home .boot-node'), wm = $('#hero-watermark'), lines = $$('#home .kinetic-line');
+        document.body.classList.add('anim-ready');
+        if (wm) wm.classList.add('watermark-boot');
+        lines.forEach(function (l) { l.classList.add('kinetic-boot'); });
+        nodes.forEach(function (n) { n.classList.add('wireframe-scanning'); });
+    }
+    function bootGo() {
+        if (REDUCE) return;
+        var nodes = $$('#home .boot-node'), wm = $('#hero-watermark'), lines = $$('#home .kinetic-line');
+        requestAnimationFrame(function () {
+            requestAnimationFrame(function () {
+                if (wm) wm.classList.remove('watermark-boot');
+                lines.forEach(function (l, i) { setTimeout(function () { l.classList.remove('kinetic-boot'); }, 150 + i * 190); });
+            });
+        });
+        nodes.forEach(function (n, i) { setTimeout(function () { n.classList.remove('wireframe-scanning'); }, 1500 + i * 330); });
+    }
+
+    /* =====================================================================
+       WEBSITE OPENING ANIMATION
+       Letters rise inside a Figma frame, a cursor grabs the corner and the
+       frame snaps, a counter hits 100%, then the curtains split open.
+       ===================================================================== */
+    function runIntro(onOpen) {
+        var el = document.getElementById('intro');
+        if (!el) { onOpen(); return; }
+        if (REDUCE) { el.parentNode.removeChild(el); onOpen(); return; }
+
+        try { if ('scrollRestoration' in history) history.scrollRestoration = 'manual'; } catch (e) {}
+        window.scrollTo(0, 0);
+        document.body.style.overflow = 'hidden';
+
+        var num = $('#intro-num'), fill = $('#intro-fill'), status = $('#intro-status'), frame = $('.intro-frame', el);
+        var opened = false, finished = false, skipped = false;
+
+        function place() { if (frame) { el.style.setProperty('--cx', (frame.offsetWidth / 2) + 'px'); el.style.setProperty('--cy', (frame.offsetHeight / 2) + 'px'); } }
+        place();
+        window.addEventListener('resize', place);
+
+        function open() {
+            if (opened) return; opened = true;
+            el.classList.add('snap'); el.classList.add('open');
+            safe(onOpen);
+            setTimeout(finish, 1200);
+        }
+        function finish() {
+            if (finished) return; finished = true;
+            window.removeEventListener('resize', place);
+            if (el.parentNode) el.parentNode.removeChild(el);
+            document.body.style.overflow = '';
+        }
+
+        requestAnimationFrame(function () { requestAnimationFrame(function () { el.classList.add('go'); }); });
+        setTimeout(function () { el.classList.add('snap'); }, 1900);
+
+        var STEPS = [[0, 'Mounting grid…'], [28, 'Drawing frames…'], [58, 'Calibrating motion…'], [88, 'Polishing luxury…'], [100, 'Ready ✦']];
+        var DUR = 2100, t0 = performance.now() + 250, lastStep = -1;
+        function tick(now) {
+            if (skipped) return;
+            var p = clamp((now - t0) / DUR, 0, 1), e = p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
+            var n = Math.round(100 * e), txt = String(n);
+            while (txt.length < 3) txt = '0' + txt;
+            num.textContent = txt; fill.style.width = n + '%';
+            for (var i = STEPS.length - 1; i >= 0; i--) { if (n >= STEPS[i][0]) { if (i !== lastStep) { lastStep = i; status.textContent = STEPS[i][1]; } break; } }
+            if (p < 1) requestAnimationFrame(tick); else setTimeout(open, 320);
+        }
+        requestAnimationFrame(tick);
+
+        var skip = $('#intro-skip');
+        function doSkip() { if (skipped) return; skipped = true; num.textContent = '100'; fill.style.width = '100%'; status.textContent = 'Ready ✦'; open(); }
+        if (skip) skip.addEventListener('click', doSkip);
+        document.addEventListener('keydown', function esc(e) { if (e.key === 'Escape' && !finished) doSkip(); });
+        setTimeout(open, 6500); /* failsafe */
+    }
+
+    /* =====================================================================
+       SCROLL REVEAL (Figma "snap into place")
+       ===================================================================== */
+    function initReveal() {
+        var nodes = $$('.scroll-node');
+        if (!('IntersectionObserver' in window) || REDUCE) { nodes.forEach(function (n) { n.classList.add('snapped'); }); return; }
+        var io = new IntersectionObserver(function (entries) {
+            var i = 0;
+            entries.forEach(function (en) {
+                if (!en.isIntersecting) return;
+                var n = en.target; io.unobserve(n);
+                setTimeout(function () {
+                    n.classList.add('wireframe-scanning');
+                    n.classList.add('snapped');
+                    setTimeout(function () { n.classList.remove('wireframe-scanning'); }, 760);
+                }, (i++) * 95);
+            });
+        }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+        nodes.forEach(function (n) { io.observe(n); });
+        setTimeout(function () {
+            $$('.scroll-node:not(.snapped)').forEach(function (n) {
+                var r = n.getBoundingClientRect();
+                if (r.top < window.innerHeight && r.bottom > 0) n.classList.add('snapped');
+            });
+        }, 5000);
+    }
+
+    /* =====================================================================
+       SCROLL EXTRAS: progress bar, watermark parallax, active nav
+       ===================================================================== */
+    function initScrollFx() {
+        var bar = document.createElement('div'); bar.className = 'scroll-progress'; document.body.appendChild(bar);
+        var wm = $('#hero-watermark'), wmWrap = wm ? wm.parentElement : null, ticking = false;
+        function update() {
+            ticking = false;
+            var h = document.documentElement.scrollHeight - window.innerHeight;
+            bar.style.transform = 'scaleX(' + (h > 0 ? clamp(window.scrollY / h, 0, 1) : 0) + ')';
+            if (wmWrap && !REDUCE && window.scrollY < 1200) wmWrap.style.transform = 'translate3d(0,' + (window.scrollY * 0.14) + 'px,0)';
+        }
+        window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+        update();
+
+        if ('IntersectionObserver' in window) {
+            var links = $$('header nav a[href^="#"]');
+            var secs = ['work', 'pricing', 'about', 'contact'].map(function (id) { return document.getElementById(id); }).filter(Boolean);
+            var so = new IntersectionObserver(function (entries) {
+                entries.forEach(function (en) {
+                    if (!en.isIntersecting) return;
+                    links.forEach(function (a) { var on = a.getAttribute('href') === '#' + en.target.id; a.classList.toggle('text-offwhite', on); });
+                });
+            }, { rootMargin: '-45% 0px -50% 0px' });
+            secs.forEach(function (s) { so.observe(s); });
+        }
+    }
+
+    /* =====================================================================
+       METRIC COUNT-UP
+       ===================================================================== */
+    function initCountUp() {
+        var box = $('[data-frame-label="METRICS // PROOF"]');
+        if (!box || REDUCE) return;
+        var els = $$('.font-display', box), done = false;
+        function run() {
+            if (done) return; done = true;
+            els.forEach(function (el, i) {
+                var m = (el.textContent || '').trim().match(/^(\d+)(.*)$/);
+                if (!m) return;
+                var end = parseInt(m[1], 10), pad = (m[1].length > 1 && m[1].charAt(0) === '0') ? m[1].length : 0, suf = m[2];
+                var t0 = performance.now(), dur = 1300 + i * 260;
+                el.textContent = (pad ? '0'.repeat(pad) : '0') + suf;
+                (function tick(now) {
+                    var p = clamp((now - t0) / dur, 0, 1), e = 1 - Math.pow(1 - p, 4), n = String(Math.round(end * e));
+                    if (pad) while (n.length < pad) n = '0' + n;
+                    el.textContent = n + suf;
+                    if (p < 1) requestAnimationFrame(tick);
+                })(t0);
+            });
+        }
+        if (!('IntersectionObserver' in window)) return;
+        var io = new IntersectionObserver(function (en) {
+            if (en[0].isIntersecting) { io.disconnect(); setTimeout(run, 900); }
+        }, { threshold: 0.4 });
+        io.observe(box);
+    }
+
+    /* =====================================================================
+       PORTRAIT 3D TILT + MOUSE GLOW
+       ===================================================================== */
+    function initTilt() {
+        var card = $('[data-frame-label="PORTRAIT // MUNAF"]');
+        if (!card || !FINE || REDUCE) return;
+        card.addEventListener('pointermove', function (e) {
+            var r = card.getBoundingClientRect();
+            var px = (e.clientX - r.left) / r.width - 0.5, py = (e.clientY - r.top) / r.height - 0.5;
+            card.style.transform = 'perspective(900px) rotateY(' + (px * 7).toFixed(2) + 'deg) rotateX(' + (-py * 7).toFixed(2) + 'deg)';
+        });
+        card.addEventListener('pointerleave', function () { card.style.transform = ''; });
+    }
+    function initGlow() {
+        if (!FINE || REDUCE) return;
+        var g = document.createElement('div'); g.className = 'mouse-glow'; document.body.appendChild(g);
+        var tx = -999, ty = -999, x = -999, y = -999, on = false;
+        window.addEventListener('pointermove', function (e) { tx = e.clientX; ty = e.clientY; if (!on) { on = true; x = tx; y = ty; g.style.opacity = 1; } }, { passive: true });
+        document.addEventListener('mouseleave', function () { on = false; g.style.opacity = 0; });
+        (function loop() {
+            x += (tx - x) * 0.12; y += (ty - y) * 0.12;
+            g.style.transform = 'translate3d(' + (x - 170).toFixed(1) + 'px,' + (y - 170).toFixed(1) + 'px,0)';
+            requestAnimationFrame(loop);
+        })();
+    }
+
+    /* =====================================================================
+       LIVE MULTIPLAYER CURSORS — 10 cursors roaming the WHOLE page
+       Spring-physics, fast flights up and down every section, grabbing
+       frames (selection ring + handles), clicking (ripple), dragging,
+       chatting in bubbles, and chasing the visitor's real mouse.
+       ===================================================================== */
+    function initCursors() {
+        if (REDUCE) return;
+
+        var DEFS = [
+            { name: 'Munaf',     color: '#EAB308', text: '#080808', stiff: 95,  msgs: ['Tightening the kerning ✍️', 'Gold or champagne? 🤔', 'Ship it 🚀', 'Hero looks clean'] },
+            { name: 'Hero',      color: '#38BDF8', text: '#080808', stiff: 78,  msgs: ['Contrast +10%', 'Looks premium ✨', 'Nudging 2px', 'Auto-layout ✓'] },
+            { name: 'Luxury UI', color: '#A855F7', text: '#FFFFFF', stiff: 115, msgs: ['Adding motion', 'Easing: expo.out', 'Love this grid', 'Approved ✅'] },
+            { name: 'Designer',  color: '#EC4899', text: '#FFFFFF', stiff: 88,  msgs: ['Kerning is perfect', 'More whitespace?', 'Type scale ✓', 'Pixel-perfect 🎯'] },
+            { name: 'Motion',    color: '#22C55E', text: '#080808', stiff: 105, msgs: ['Stagger 0.08s', 'GSAP timeline ⚡', 'Smooth as butter', 'Spring: stiff'] },
+            { name: 'Client',    color: '#F97316', text: '#080808', stiff: 72,  msgs: ['Love this one 😍', 'Can we launch today?', 'Wow, premium', 'Send the quote'] },
+            { name: 'Dev',       color: '#14B8A6', text: '#080808', stiff: 110, msgs: ['99 on mobile 🚀', 'Lazy-loading it', 'Lighthouse: 100', 'Zero layout shift'] },
+            { name: 'Pixel',     color: '#EF4444', text: '#FFFFFF', stiff: 84,  msgs: ['Off by 1px 👀', 'Aligned to grid', 'Radius 16 ✓', 'Shadow softer'] },
+            { name: 'Studio',    color: '#6366F1', text: '#FFFFFF', stiff: 100, msgs: ['Brand colors ✓', 'Dark mode: yes', 'Hover state added', 'Shipping v2'] },
+            { name: 'Founder',   color: '#D4AF37', text: '#080808', stiff: 92,  msgs: ['This converts', 'Book the call 📞', 'Looks like a flagship', 'Approved 👑'] }
+        ];
+        var defs = window.innerWidth < 640 ? DEFS.slice(0, 5) : DEFS;
+
+        /* Full-page overlay: page coordinates, so cursors roam every section */
+        var oldLayer = document.getElementById('mp-layer');
+        if (oldLayer && oldLayer.parentNode) oldLayer.parentNode.removeChild(oldLayer);
+        var layer = document.createElement('div');
+        layer.id = 'mp-layer'; layer.className = 'mp-layer'; layer.setAttribute('aria-hidden', 'true');
+        document.body.appendChild(layer);
+        function sizeLayer() {
+            layer.style.cssText = 'position:absolute;top:0;left:0;right:auto;bottom:auto;width:100%;height:0px';
+            var h = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
+            layer.style.height = h + 'px';
+        }
+        sizeLayer();
+        var rzT = 0;
+        function queueSize() { clearTimeout(rzT); rzT = setTimeout(sizeLayer, 120); }
+        window.addEventListener('resize', queueSize);
+        window.addEventListener('load', queueSize);
+        if ('ResizeObserver' in window) { try { new ResizeObserver(queueSize).observe(document.body); } catch (e) {} }
+
+        /* Everything a cursor may visit */
+        var tmap = new Map();
+        [['.figma-node', 3], ['h1', 2], ['h2', 2], ['a[href="#work"]', 2], ['a[href="#contact"]', 2],
+         ['span[class*="bob-"]', 1.6], ['label[for="upload-my-photo"]', 1.6], ['.tier-pill', 1.2],
+         ['button[onclick^="selectTier"]', 1.6], ['button[onclick^="openCaseStudy"]', 1.8],
+         ['#brief-form button[type="submit"]', 1.8], ['[data-frame-label="METRICS // PROOF"] .font-display', 1.4]
+        ].forEach(function (p) {
+            $$(p[0]).forEach(function (el) {
+                if (el.closest('header') || el.closest('#case-modal')) return;
+                tmap.set(el, Math.max(tmap.get(el) || 0, p[1]));
+            });
+        });
+        var targets = [];
+        tmap.forEach(function (w, el) { targets.push({ el: el, w: w }); });
+        if (!targets.length) return;
+        var taken = new Set();
+        var view = { sx: 0, sy: 0, vh: window.innerHeight, W: document.documentElement.clientWidth };
+        function readView() { view.sx = window.pageXOffset; view.sy = window.pageYOffset; view.vh = window.innerHeight; view.W = document.documentElement.clientWidth; }
+        readView();
+
+        /* Real mouse (stored in client coords so it stays correct while scrolling) */
+        var mouse = { cx: 0, cy: 0, t: -1e9, inside: false };
+        window.addEventListener('pointermove', function (e) { mouse.cx = e.clientX; mouse.cy = e.clientY; mouse.t = performance.now(); mouse.inside = true; }, { passive: true });
+        document.documentElement.addEventListener('mouseleave', function () { mouse.inside = false; });
+
+        function tPos(t) {
+            var r = t.el.getBoundingClientRect();
+            return { x: r.left + view.sx + r.width * t.fx, y: r.top + view.sy + r.height * t.fy };
+        }
+
+        var cursors = defs.map(function (def, idx) {
+            var el = document.createElement('div');
+            el.className = 'mp-cursor2';
+            el.style.setProperty('--c', def.color);
+            el.innerHTML =
+                '<div class="mp-arrow"><svg viewBox="0 0 24 24" fill="' + def.color + '" stroke="#080808" stroke-width="1.2" stroke-linejoin="round"><path d="M4 2l16 11-7 2-3 7z"/></svg></div>' +
+                '<div class="mp-label" style="background:' + def.color + ';color:' + def.text + '">' + def.name + '</div>' +
+                '<div class="mp-bubble"></div>';
+            layer.appendChild(el);
+            var dots = [];
+            for (var i = 0; i < 4; i++) {
+                var d = document.createElement('div');
+                d.className = 'mp-dot';
+                d.style.setProperty('--c', def.color);
+                var sz = 6 - i * 0.9; d.style.width = d.style.height = sz + 'px';
+                layer.insertBefore(d, layer.firstChild);
+                dots.push(d);
+            }
+            return {
+                idx: idx, def: def, el: el, arrow: el.firstChild, bubble: el.lastChild, dots: dots, hist: [],
+                x: -80, y: -80, vx: 0, vy: 0, state: 'wait', target: null, path: [], timer: 0, actT: 0, actDur: 0,
+                selEl: null, drag: null, seed: rand(0, 100), stiff: def.stiff, travelT: 0, msgI: idx % 4,
+                follower: (idx % 3 === 1), fo: { x: (idx % 2 ? 46 : -62), y: (idx % 2 ? 32 : 24) }
+            };
+        });
+
+        function pickTarget(c, forceVis) {
+            var vh = view.vh;
+            var pool = targets.filter(function (t) {
+                if (!t.el.isConnected || taken.has(t.el) || (c.target && t.el === c.target.el)) return false;
+                if (t.el.classList.contains('scroll-node') && !t.el.classList.contains('snapped')) return false;
+                var r = t.el.getBoundingClientRect(); return r.width > 4 && r.height > 4;
+            });
+            var vis = pool.filter(function (t) { var r = t.el.getBoundingClientRect(); return r.bottom > 50 && r.top < vh - 50; });
+            /* mostly stay where the visitor is looking, sometimes sweep to any section of the page */
+            if (vis.length && (forceVis || Math.random() < 0.78)) pool = vis;
+            if (!pool.length) pool = targets;
+            var tot = pool.reduce(function (a, t) { return a + t.w; }, 0), roll = Math.random() * tot, pick = pool[0];
+            for (var i = 0; i < pool.length; i++) { roll -= pool[i].w; if (roll <= 0) { pick = pool[i]; break; } }
+            return pick;
+        }
+
+        function newTarget(c, forceVis) {
+            var now = performance.now();
+            if (c.target && c.target.el) taken.delete(c.target.el);
+            deselect(c);
+            c.drag = null;
+            if (!forceVis && c.follower && mouse.inside && now - mouse.t < 2500 && Math.random() < 0.6) {
+                c.target = { el: null, follow: true };
+                c.state = 'follow'; c.timer = rand(1.2, 2.0); c.path = [];
+                showBubble(c, 'Hey 👋');
+                return;
+            }
+            var t = pickTarget(c, forceVis);
+            c.target = { el: t.el, fx: rand(0.22, 0.78), fy: rand(0.25, 0.75) };
+            taken.add(t.el);
+            var end = tPos(c.target), dx = end.x - c.x, dy = end.y - c.y, len = Math.hypot(dx, dy) || 1;
+            c.path = [];
+            if (len > 140) {
+                var off = rand(60, 170) * (Math.random() < 0.5 ? -1 : 1), f = rand(0.35, 0.6);
+                c.path.push({ x: c.x + dx * f + (-dy / len) * off, y: c.y + dy * f + (dx / len) * off });
+            }
+            c.state = 'travel'; c.travelT = 0;
+        }
+
+        function select(c) {
+            var el = c.target && c.target.el; if (!el) return;
+            el.classList.add('mp-sel'); el.style.setProperty('--sel', c.def.color); c.selEl = el;
+        }
+        function deselect(c) {
+            if (c.selEl) {
+                c.selEl.classList.remove('mp-sel'); c.selEl.style.removeProperty('--sel');
+                if (c.selEl.__mpNudged) { c.selEl.style.transform = ''; c.selEl.__mpNudged = false; }
+                c.selEl = null;
+            }
+            hideBubble(c);
+        }
+        function showBubble(c, txt) { c.bubble.textContent = txt; c.bubble.classList.add('on'); }
+        function hideBubble(c) { c.bubble.classList.remove('on'); }
+        function ripple(c) {
+            var r = document.createElement('div'); r.className = 'mp-ripple'; r.style.setProperty('--c', c.def.color);
+            r.style.left = (c.x + 3) + 'px'; r.style.top = (c.y + 3) + 'px';
+            layer.appendChild(r);
+            setTimeout(function () { if (r.parentNode) r.parentNode.removeChild(r); }, 800);
+        }
+        function press(c) { c.el.classList.add('press'); setTimeout(function () { c.el.classList.remove('press'); }, 150); }
+
+        function startAct(c) {
+            c.state = 'act'; c.actT = 0;
+            var el = c.target.el, roll = Math.random();
+            var canDrag = el && ((el.classList.contains('boot-node') && el.getAttribute('data-frame-label') !== 'PORTRAIT // MUNAF') ||
+                                 (el.classList.contains('scroll-node') && el.classList.contains('snapped')));
+            select(c);
+            if (roll < 0.34) { c.act = 'click'; c.actDur = rand(0.6, 1.0); press(c); ripple(c); setTimeout(function () { if (c.state === 'act') { press(c); ripple(c); } }, 280); }
+            else if (roll < 0.66) { c.act = 'type'; c.actDur = rand(1.3, 1.9); c.msgI = (c.msgI + 1) % c.def.msgs.length; showBubble(c, c.def.msgs[c.msgI]); }
+            else if (roll < 0.86 && canDrag) { c.act = 'drag'; c.actDur = rand(1.0, 1.4); c.drag = { dx: rand(-34, 34), dy: rand(-16, 16) }; press(c); }
+            else { c.act = 'hover'; c.actDur = rand(0.5, 0.9); }
+        }
+
+        function update(c, dt, now) {
+            var goal;
+            if (c.state === 'wait') return;
+            if (c.state === 'follow') {
+                goal = { x: mouse.cx + view.sx + c.fo.x, y: mouse.cy + view.sy + c.fo.y };
+                c.timer -= dt;
+                if (c.timer <= 0 || !mouse.inside) { hideBubble(c); newTarget(c); }
+            } else if (c.state === 'travel') {
+                c.travelT += dt;
+                goal = c.path.length ? c.path[0] : tPos(c.target);
+                var d = Math.hypot(goal.x - c.x, goal.y - c.y), sp = Math.hypot(c.vx, c.vy);
+                if (c.path.length && d < 110) c.path.shift();
+                else if (!c.path.length && ((d < 14 && sp < 220) || c.travelT > 3)) startAct(c);
+            } else { /* act */
+                goal = tPos(c.target);
+                c.actT += dt;
+                if (c.act === 'drag' && c.drag) {
+                    var p = clamp((c.actT - 0.12) / 0.4, 0, 1), e = p * p * (3 - 2 * p);
+                    goal = { x: goal.x + c.drag.dx * e, y: goal.y + c.drag.dy * e };
+                    var el = c.target.el;
+                    if (el) { el.style.transform = 'translate3d(' + (c.drag.dx * e * 0.22).toFixed(2) + 'px,' + (c.drag.dy * e * 0.22).toFixed(2) + 'px,0)'; el.__mpNudged = true; }
+                }
+                if (c.actT >= c.actDur) newTarget(c);
+            }
+            if (!goal) return;
+            var k = c.state === 'act' ? c.stiff * 1.25 : c.stiff;
+            var damp = 2 * Math.sqrt(k) * 0.68;
+            c.vx += ((goal.x - c.x) * k - c.vx * damp) * dt;
+            c.vy += ((goal.y - c.y) * k - c.vy * damp) * dt;
+            var spd = Math.hypot(c.vx, c.vy);
+            if (spd > 5200) { c.vx *= 5200 / spd; c.vy *= 5200 / spd; spd = 5200; }
+            c.x += c.vx * dt; c.y += c.vy * dt;
+            var tt = now / 1000, tx = c.x + Math.sin(tt * 7 + c.seed) * 0.35, ty = c.y + Math.cos(tt * 6 + c.seed) * 0.35;
+            c.el.style.transform = 'translate3d(' + tx.toFixed(1) + 'px,' + ty.toFixed(1) + 'px,0)';
+            c.arrow.style.transform = 'rotate(' + clamp(c.vx * 0.005, -18, 18).toFixed(1) + 'deg)';
+            c.el.classList.toggle('flip', c.x > view.W - 230);
+            c.hist.push(tx, ty); if (c.hist.length > 40) c.hist.splice(0, 2);
+            var al = clamp(spd / 800, 0, 1) * 0.55;
+            for (var i = 0; i < c.dots.length; i++) {
+                var hi = c.hist.length - 2 - (i + 1) * 4;
+                if (hi < 0) { c.dots[i].style.opacity = 0; continue; }
+                c.dots[i].style.transform = 'translate3d(' + (c.hist[hi] + 3) + 'px,' + (c.hist[hi + 1] + 3) + 'px,0)';
+                c.dots[i].style.opacity = (al * (1 - i / 4.5)).toFixed(3);
+            }
+        }
+
+        var raf = 0, last = 0, running = false;
+        function frame(ts) {
+            if (!running) { raf = 0; return; }
+            var dt = Math.min(0.033, (ts - last) / 1000 || 0.016); last = ts;
+            readView();
+            for (var i = 0; i < cursors.length; i++) update(cursors[i], dt, ts);
+            raf = requestAnimationFrame(frame);
+        }
+        function start() { if (running || document.hidden) return; running = true; last = performance.now(); raf = requestAnimationFrame(frame); }
+        function stop() { running = false; }
+        document.addEventListener('visibilitychange', function () { document.hidden ? stop() : start(); });
+
+        /* Entrance: cursors fly in from all four edges of the visible screen, one after another */
+        cursors.forEach(function (c, i) {
+            setTimeout(function () {
+                readView();
+                var w = view.W, vh = view.vh, e = i % 4;
+                var o = e === 0 ? { x: -70, y: view.sy + vh * rand(0.15, 0.85) }
+                      : e === 1 ? { x: rand(0.15, 0.85) * w, y: view.sy - 70 }
+                      : e === 2 ? { x: w + 70, y: view.sy + vh * rand(0.15, 0.85) }
+                      :           { x: rand(0.15, 0.85) * w, y: view.sy + vh + 70 };
+                c.x = o.x; c.y = o.y; c.vx = c.vy = 0;
+                c.stiff = c.def.stiff * 0.8;
+                c.state = 'travel';
+                c.el.classList.add('live');
+                newTarget(c, true);
+                setTimeout(function () { c.stiff = c.def.stiff; }, 900);
+            }, 220 + i * 150);
+        });
+        start();
+    }
+
+    /* =====================================================================
+       INIT
+       ===================================================================== */
+    function init() {
+        var y = document.getElementById('footer-year'); if (y) y.textContent = new Date().getFullYear();
+        safe(restorePhoto);
+        safe(bootPrep);
+        safe(initReveal);
+        safe(initScrollFx);
+        safe(initTilt);
+        safe(initGlow);
+        safe(initXray);
+        updateBudgetPill($('#selected-budget') ? $('#selected-budget').value : '₹5,000 – ₹10,000');
+        /* Opening animation first; the hero, cursors and counters start as the curtains open */
+        runIntro(function () {
+            safe(bootGo);
+            safe(initCursors);
+            safe(initCountUp);
+        });
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+    </script>
+</body>
+</html>
